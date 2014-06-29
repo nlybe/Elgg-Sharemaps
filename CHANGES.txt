@@ -1,0 +1,45 @@
+CHANGE LOG
+
+1.8.6
+---------------------
+- Added the ption to upload gpx files (directly from GPS Trackers)
+- Fixed security issue for uploaded files (thanks to Matt Beckett)
+- Fixed issue for displaying maps for non-public posts and walled garden sites
+- Map display code moved from pages to object view
+- Changed icon of post to owner icon
+- Several code improvements
+
+1.8.5
+---------------------
+- Fixed bug on Group maps when creating a map in a group using the link the map ends up contained by the logged in user instead of the group.
+
+1.8.4
+---------------------
+- Fixed bug on file validation for updated entities, when new file is uploaded
+
+1.8.3
+---------------------
+- Fixed again bug for displaying kml maps when "non public" access is selected to entity. No symbolic links required any more
+
+1.8.2
+---------------------
+- Fixed bug on url validation when inserting links from google maps
+- Spanish translation added (thanks to Angel Blanco)
+
+1.8.1
+---------------------
+- Fixed bug for displaying kml maps when "non public" access is selected to entity
+- Fixed a bug in group menu when disable maps for this group
+- Just some text messages changed
+- Fixed bug regarding enable and disable maps on groups
+- Fixed bug when link source is diferrent than google.com (e.g. google.de)
+
+1.8.0
+---------------------
+Initial release
+
+
+
+
+
+
