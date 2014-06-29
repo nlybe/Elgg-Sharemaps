@@ -12,6 +12,7 @@ elgg_register_event_handler('init', 'system', 'sharemaps_init');
  */
 function sharemaps_init() {
 
+<<<<<<< HEAD
     // register a library of helper functions
     elgg_register_library('elgg:sharemaps', elgg_get_plugins_path() . 'sharemaps/lib/sharemaps.php');
 
@@ -117,6 +118,94 @@ function sharemaps_walled_garden_hook($hook, $type, $return_value, $params){
 	$add[] = 'sharemaps/filepath/.*';
 	
 	return $add;
+=======
+	// register a library of helper functions
+	elgg_register_library('elgg:sharemaps', elgg_get_plugins_path() . 'sharemaps/lib/sharemaps.php');
+        
+        // Site navigation
+	$item = new ElggMenuItem('sharemaps', elgg_echo('sharemaps:menu'), 'sharemaps/all');
+	elgg_register_menu_item('site', $item); 
+
+	// Extend CSS
+	elgg_extend_view('css/elgg', 'sharemaps/css');
+
+	// add enclosure to rss item
+	elgg_extend_view('extensions/item', 'sharemaps/enclosure');
+
+        // register extra css files
+        $css_url = 'http://code.google.com/apis/maps/documentation/javascript/examples/default.css';
+        elgg_register_css('kmlcss', $css_url);
+        
+        // register extra js files
+        $mapkey = trim(elgg_get_plugin_setting('google_api_key', 'sharemaps'));
+        elgg_register_js('gkml', 'http://maps.googleapis.com/maps/api/js?sensor=false&amp;key=' . $mapkey);
+        elgg_register_js('kml', '/mod/sharemaps/assets/kml.js');
+                
+	// extend group main page
+	elgg_extend_view('groups/tool_latest', 'sharemaps/group_module');
+        
+	// add the group maps tool option
+	add_group_tool_option('sharemaps', elgg_echo('groups:enablemaps'), true);        
+
+	// Register a page handler, so we can have nice URLs
+	elgg_register_page_handler('sharemaps', 'sharemaps_page_handler');
+
+	// Add a new map widget
+	elgg_register_widget_type('sharemaps', elgg_echo("sharemaps"), elgg_echo("sharemaps:widget:description"));
+
+	// Register URL handlers for maps
+	elgg_register_entity_url_handler('object', 'sharemaps', 'sharemaps_url_override');
+	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'sharemaps_icon_url_override');
+
+	// Register granular notification for this object type
+	register_notification_object('object', 'sharemaps', elgg_echo('sharemaps:newupload'));
+
+	// Listen to notification events and supply a more useful message
+	elgg_register_plugin_hook_handler('notify:entity:message', 'object', 'sharemaps_notify_message');
+
+	// Register entity type for search
+	elgg_register_entity_type('object', 'sharemaps');
+
+	// add a map link to owner blocks
+	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'sharemaps_owner_block_menu');
+
+	// Register actions
+	$action_path = elgg_get_plugins_path() . 'sharemaps/actions/sharemaps';
+	elgg_register_action("sharemaps/upload", "$action_path/upload.php");
+	elgg_register_action("sharemaps/delete", "$action_path/delete.php");
+	elgg_register_action("sharemaps/download", "$action_path/download.php");
+        elgg_register_action("sharemaps/embed", "$action_path/addembed.php");
+        elgg_register_action("sharemaps/filepath", "$action_path/filepath.php");
+        
+	// embed support
+	$item = ElggMenuItem::factory(array(
+		'name' => 'sharemaps',
+		'text' => elgg_echo('sharemaps'),
+		'priority' => 10,
+		'data' => array(
+			'options' => array(
+				'type' => 'object',
+				'subtype' => 'sharemaps',
+			),
+		),
+	));
+	elgg_register_menu_item('embed', $item);
+
+	$item = ElggMenuItem::factory(array(
+		'name' => 'sharemaps_upload',
+		'text' => elgg_echo('sharemaps:upload'),
+		'priority' => 100,
+		'data' => array(
+			'view' => 'embed/sharemaps_upload/content',
+		),
+	));
+	elgg_register_menu_item('embed', $item);
+        
+        // build symbolic link for maps, needed for not public maps - OBSOLETTE
+        //$pathd = elgg_get_data_path();
+        //$link = elgg_get_root_path().'mod/sharemaps/maps/maplink';
+        //$buildlink = symlink($pathd, $link);
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 }
 
 /**
@@ -179,12 +268,21 @@ function sharemaps_page_handler($page) {
 			include "$file_dir/download.php";
 			break;
 		case 'addembed':
+<<<<<<< HEAD
 			elgg_set_page_owner_guid($page[1]);
 			include "$file_dir/addembed.php";
 			break; 
 		case 'filepath':
 			set_input('guid', $page[1]);
 			include "$file_dir/filepath.php";
+=======
+                        elgg_set_page_owner_guid($page[1]);
+                        include "$file_dir/addembed.php";
+			break; 
+		case 'filepath':
+                        set_input('guid', $page[1]);
+                        include "$file_dir/filepath.php";
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 			break;          
 		default:
 			return false;
@@ -323,9 +421,16 @@ function sharemaps_url_override($entity) {
 
 /**
  * Override the default entity icon for maps
+<<<<<<< HEAD
  * Plugins can override or extend the icons using the plugin hook: 'sharemaps:icon:url', 'override'
  * @return string Relative URL
  * (not used after version 1.8.6 and later)
+=======
+ *
+ * Plugins can override or extend the icons using the plugin hook: 'sharemaps:icon:url', 'override'
+ *
+ * @return string Relative URL
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
  */
 function sharemaps_icon_url_override($hook, $type, $returnvalue, $params) {
 	$sharemaps = $params['entity'];

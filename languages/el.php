@@ -101,6 +101,7 @@ $greek = array(
     'sharemaps:embed' => 'Εισάγετε σύνδεσμο από το Google Maps',
     'sharemaps:addembed' => 'Εισάγετε σύνδεσμο από το Google Maps',
     'sharemaps:gmaplink' => 'Σύνδεσμος Google Map',
+<<<<<<< HEAD
     'sharemaps:gmaplinkhowto' => 'Κάνετε αντιγραφή το σύνδεσμο από το χάρτη σας στο Google Maps (επιλογή <strong>Embed map</strong>) και επικολλήστε τον εδώ (μην επιλέξετε SHORT URL)',
     'sharemaps:gmaphowtouploadkml' => 'Το αρχείο πρέπει να είναι τύπου Google Earth KML ή KMZ. Μπορείτε να μετατρέψετε αρχεία gpx σε kml στο <a href="http://gpx2kml.com" target="_blank" title="Convert gpx file to kml">gpx2kml.com</a>.',
     'sharemaps:gmaplinknovalid' => 'Μη έγκυρο URL',
@@ -108,6 +109,10 @@ $greek = array(
     'sharemaps:nogmaplink' => 'Δεν εισάγατε Σύνδεσμο Google Map',
     'sharemaps:dosekapoiotitle' => 'Δεν εισάγατε τίτλο',    
     
+=======
+    'sharemaps:gmaplinkhowto' => 'Κάνετε αντιγραφή το σύνδεσμο από το χάρτη σας στο Google Maps και επικολλήστε τον εδώ (μην επιλέξετε SHORT URL)',
+    'sharemaps:gmaphowtouploadkml' => 'Το αρχείο πρέπει να είναι τύπου Google Earth KML ή KMZ. Μπορείτε να μετατρέψετε αρχεία gpx σε kml στο <a href="http://gpx2kml.com" target="_blank" title="Convert gpx file to kml">gpx2kml.com</a>.',
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 );
 
 add_translation("el", $greek);

@@ -8,12 +8,27 @@
 elgg_push_breadcrumb(elgg_echo('sharemaps'));
 
 // insert google map button
+<<<<<<< HEAD
+=======
+/*
+elgg_register_menu_item('title', array(
+	'name' => 'addembed',
+	'text' => elgg_echo('sharemaps:embed'),
+	'href' => "sharemaps/addembed/35",
+	'link_class' => 'elgg-button elgg-button-action',
+));*/
+
+// insert google map button
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 elgg_register_title_button('sharemaps','addembed');
 // upload button
 elgg_register_title_button();
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 $limit = get_input("limit", 10);
 
 $title = elgg_echo('sharemaps:all');

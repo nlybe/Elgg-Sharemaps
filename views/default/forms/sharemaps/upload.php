@@ -28,7 +28,11 @@ if ($guid) {
 <div>
 	<label><?php echo $file_label; ?></label><br />
 	<?php echo elgg_view('input/file', array('name' => 'upload')); ?>
+<<<<<<< HEAD
         <div class="elgg-subtext"><?php echo elgg_echo("sharemaps:gmaphowtouploadgpxkml");?></div>
+=======
+        <div class="elgg-subtext"><?php echo elgg_echo("sharemaps:gmaphowtouploadkml");?></div>
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 </div>
 <div>
 	<label><?php echo elgg_echo('title'); ?></label><br />

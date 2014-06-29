@@ -38,6 +38,7 @@ if (!is_valid_url_2($gmaplink))
 // check if google maps url
 $pos = strpos($gmaplink, 'https://maps.google.');
 if ($pos === false) {
+<<<<<<< HEAD
 	$pos = strpos($gmaplink, 'https://www.google.');
 }
 
@@ -63,6 +64,8 @@ if (!is_valid_url_2($gmaplink))
 // check if google maps url
 $pos = strpos($gmaplink, 'https://maps.google.');
 if ($pos === false) {
+=======
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
         $error = elgg_echo('sharemaps:gmaplinknomapsgooglecom');
         register_error($error);
         forward(REFERER);
@@ -71,10 +74,17 @@ if ($pos === false) {
         register_error($error);
         forward(REFERER);
 }
+<<<<<<< HEAD
 */
 
 if ($new_file) {
     // nikos, must have a link
+=======
+
+
+if ($new_file) {
+    // must have a file if a new file upload --> nikos, must have a link
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
     if (empty($gmaplink)) {
             $error = elgg_echo('sharemaps:nogmaplink');
             register_error($error);
@@ -139,7 +149,17 @@ if ($new_file) {
 		register_error($error);
 	}
 
+<<<<<<< HEAD
 	forward($sharemaps->getURL());
+=======
+	$container = get_entity($container_guid);
+	if (elgg_instanceof($container, 'group')) {
+		forward("sharemaps/group/$container->guid/all");
+	} else {
+		forward("sharemaps/owner/$container->username");
+	}
+
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 } else {
 	if ($guid) {
 		system_message(elgg_echo("sharemaps:saved"));

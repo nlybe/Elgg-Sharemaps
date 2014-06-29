@@ -9,6 +9,10 @@ elgg_load_library('elgg:sharemaps');
 
 $userid = elgg_get_logged_in_user_guid();
 $owner = elgg_get_page_owner_entity();
+<<<<<<< HEAD
+=======
+//$owner = get_entity($userid); //elgg_get_page_owner_entity();
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 
 gatekeeper();
 group_gatekeeper();

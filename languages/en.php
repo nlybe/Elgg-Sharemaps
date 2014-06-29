@@ -85,7 +85,11 @@ View and comment on the new map:
     'sharemaps:noaccess' => "You do not have permissions to change this map",
     'sharemaps:cannotload' => "There was an error uploading the map",
     'sharemaps:nofile' => "You must select a map file",
+<<<<<<< HEAD
     'sharemaps:nokmlfile' => "Invalid file type. File type must be Google Earth KML or KMZ",
+=======
+    'sharemaps:nokmlfile' => "Invalid file type. File type must be Google Earth KML ή KMZ",
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
     'sharemaps:noaccesstofilemap' => "No access to file map",
 
     // settings
@@ -101,6 +105,7 @@ View and comment on the new map:
     'sharemaps:embed' => 'Insert a google map link',
     'sharemaps:addembed' => 'Insert a google map link',
     'sharemaps:gmaplink' => 'Google map link',
+<<<<<<< HEAD
     'sharemaps:gmaplinkhowto' => 'Copy URL from your google map <strong>Embed map</strong> option and paste here (NO SHORT URL)',
     'sharemaps:gmaphowtouploadkml' => 'File type must be Google Earth KML or KMZ. You can convert your .gpx file at <a href="http://gpx2kml.com" target="_blank" title="Convert gpx file to kml">http://gpx2kml.com</a>.',
     'sharemaps:gmaplinknovalid' => 'URL you entered is not valid',
@@ -111,6 +116,11 @@ View and comment on the new map:
     // gpx files
     'sharemaps:novalidfile' => "Invalid file type. File type must be .gpx or Google Earth KML or KMZ",
     'sharemaps:gmaphowtouploadgpxkml' => 'File type must be GPX or Google Earth KML or KMZ. You can convert your files between GPX and KML at <a href="http://gpx2kml.com" target="_blank" title="Convert gpx file to kml">http://gpx2kml.com</a>.',
+=======
+    'sharemaps:gmaplinkhowto' => 'Copy URL from your google map and paste here (NO SHORT URL)',
+    'sharemaps:gmaphowtouploadkml' => 'File type must be Google Earth KML or KMZ. You can convert your .gpx file at <a href="http://gpx2kml.com" target="_blank" title="Convert gpx file to kml">http://gpx2kml.com</a>.',
+
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 );
 
 add_translation("en", $english);

@@ -4,8 +4,11 @@
  *
  * @package ElggShareMaps
  */
+<<<<<<< HEAD
  
 elgg_load_library('elgg:sharemapsgeophp'); 
+=======
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 
 // Get variables
 $title = get_input("title");
@@ -46,6 +49,7 @@ if ($new_file) {
     $pos = strripos($mapfile, '.kml');
     
     if ($pos === false) {
+<<<<<<< HEAD
 		$pos = strripos($mapfile, '.kmz');
     }
     
@@ -57,6 +61,15 @@ if ($new_file) {
 		$error = elgg_echo('sharemaps:novalidfile');  // pro
 		register_error($error);
 		forward(REFERER);
+=======
+            $pos = strripos($mapfile, '.kmz');
+    }
+
+    if ($pos === false) {
+            $error = elgg_echo('sharemaps:nokmlfile');
+            register_error($error);
+            forward(REFERER);
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
     } 
 
     $sharemaps = new SharemapsPluginMap();
@@ -66,7 +79,11 @@ if ($new_file) {
     if (empty($title)) {
             $title = $_FILES['upload']['name'];
     }
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 } else {
     // check if updated file is valid
     if (!empty($_FILES['upload']['name'])) {
@@ -79,10 +96,13 @@ if ($new_file) {
         }
 
         if ($pos === false) {
+<<<<<<< HEAD
                 $pos = strripos($mapfile, '.gpx');
         }    
 
         if ($pos === false) {
+=======
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
                 $error = elgg_echo('sharemaps:novalidfile'); 
                 register_error($error);
                 forward(REFERER);
@@ -108,12 +128,15 @@ if ($new_file) {
     }
 }
 
+<<<<<<< HEAD
 $gpxfile = true;   // by default we set that it is gpx file
 $pos = strripos($mapfile, '.gpx');
 if ($pos === false) {
 	$gpxfile = false;
 }    
 
+=======
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 $sharemaps->title = $title;
 $sharemaps->description = $desc;
 $sharemaps->access_id = $access_id;
@@ -154,6 +177,7 @@ if (isset($_FILES['upload']['name']) && !empty($_FILES['upload']['name'])) {
 	move_uploaded_file($_FILES['upload']['tmp_name'], $sharemaps->getFilenameOnFilestore());
 
 	$guid = $sharemaps->save();
+<<<<<<< HEAD
 /*
 	// if original file is gpx, save also as kml
 	if ($gpxfile)   {
@@ -184,6 +208,48 @@ if (isset($_FILES['upload']['name']) && !empty($_FILES['upload']['name'])) {
 */
 }
 else {
+=======
+
+	// if image, we need to create thumbnails (this should be moved into a function)
+	if ($guid && $sharemaps->simpletype == "image") {
+		$sharemaps->icontime = time();
+		
+		$thumbnail = get_resized_image_from_existing_file($sharemaps->getFilenameOnFilestore(), 60, 60, true);
+		if ($thumbnail) {
+			$thumb = new ElggFile();
+			$thumb->setMimeType($_FILES['upload']['type']);
+
+			$thumb->setFilename($prefix."thumb".$filestorename);
+			$thumb->open("write");
+			$thumb->write($thumbnail);
+			$thumb->close();
+
+			$sharemaps->thumbnail = $prefix."thumb".$filestorename;
+			unset($thumbnail);
+		}
+
+		$thumbsmall = get_resized_image_from_existing_file($sharemaps->getFilenameOnFilestore(), 153, 153, true);
+		if ($thumbsmall) {
+			$thumb->setFilename($prefix."smallthumb".$filestorename);
+			$thumb->open("write");
+			$thumb->write($thumbsmall);
+			$thumb->close();
+			$sharemaps->smallthumb = $prefix."smallthumb".$filestorename;
+			unset($thumbsmall);
+		}
+
+		$thumblarge = get_resized_image_from_existing_file($sharemaps->getFilenameOnFilestore(), 600, 600, false);
+		if ($thumblarge) {
+			$thumb->setFilename($prefix."largethumb".$filestorename);
+			$thumb->open("write");
+			$thumb->write($thumblarge);
+			$thumb->close();
+			$sharemaps->largethumb = $prefix."largethumb".$filestorename;
+			unset($thumblarge);
+		}
+	}
+} else {
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 	// not saving a file but still need to save the entity to push attributes to database
 	$sharemaps->save();
 }
@@ -203,8 +269,19 @@ if ($new_file) {
 		$error = elgg_echo("sharemaps:uploadfailed");
 		register_error($error);
 	}
+<<<<<<< HEAD
 	
 	forward($sharemaps->getURL());
+=======
+
+	$container = get_entity($container_guid);
+	if (elgg_instanceof($container, 'group')) {
+		forward("sharemaps/group/$container->guid/all");
+	} else {
+		forward("sharemaps/owner/$container->username");
+	}
+
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 } else {
 	if ($guid) {
 		system_message(elgg_echo("sharemaps:saved"));

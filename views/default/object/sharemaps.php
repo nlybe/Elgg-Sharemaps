@@ -25,8 +25,13 @@ $owner_link = elgg_view('output/url', array(
 	'is_trusted' => true,
 ));
 $author_text = elgg_echo('byline', array($owner_link));
+<<<<<<< HEAD
 $owner_icon = elgg_view_entity_icon($owner, 'small');
 //$file_icon = elgg_view_entity_icon($sharemaps, 'small');
+=======
+
+$file_icon = elgg_view_entity_icon($sharemaps, 'small');
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 
 $date = elgg_view_friendly_time($sharemaps->time_created);
 
@@ -57,6 +62,7 @@ if (elgg_in_context('widgets')) {
 	$metadata = '';
 }
 
+<<<<<<< HEAD
 
 
 if ($full && !elgg_in_context('gallery')) {
@@ -174,6 +180,10 @@ if ($full && !elgg_in_context('gallery')) {
 	}
 	/************************ map end ************************/
 
+=======
+if ($full && !elgg_in_context('gallery')) {
+
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 	$extra = '';
 	if (elgg_view_exists("file/specialcontent/$mime")) {
 		$extra = elgg_view("file/specialcontent/$mime", $vars);
@@ -190,13 +200,20 @@ if ($full && !elgg_in_context('gallery')) {
 	$summary = elgg_view('object/elements/summary', $params);
 
 	$text = elgg_view('output/longtext', array('value' => $sharemaps->description));
+<<<<<<< HEAD
 	$text .= $mapbox;
+=======
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 	$body = "$text $extra";
 
 	echo elgg_view('object/elements/full', array(
 		'entity' => $sharemaps,
 		'title' => false,
+<<<<<<< HEAD
 		'icon' => $owner_icon,
+=======
+		'icon' => $file_icon,
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 		'summary' => $summary,
 		'body' => $body,
 	));
@@ -219,5 +236,9 @@ if ($full && !elgg_in_context('gallery')) {
 	$params = $params + $vars;
 	$list_body = elgg_view('object/elements/summary', $params);
 
+<<<<<<< HEAD
 	echo elgg_view_image_block($owner_icon, $list_body);
+=======
+	echo elgg_view_image_block($file_icon, $list_body);
+>>>>>>> 0d462235f8f2813afc8e0ce8d5d06e2fa0e2d1ee
 }
