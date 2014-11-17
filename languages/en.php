@@ -56,10 +56,8 @@ $english = array(
     'sharemaps:display:number' => "Number of maps to display",
 
     'river:create:object:sharemaps' => '%s uploaded the map %s',
-    'river:create:object:default' => '%s uploaded the map %s',
     'river:comment:object:sharemaps' => '%s commented on the map %s',
-    'river:comment:object:default' => '%s commented on the map %s',
-
+    
     'item:object:sharemaps' => 'Maps',
 
     'sharemaps:newupload' => 'A new map has been uploaded',

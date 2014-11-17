@@ -1,8 +1,12 @@
 CHANGE LOG
 
+1.8.7
+---------------------
+- fixed issue #4 on github
+
 1.8.6
 ---------------------
-- Added the ption to upload gpx files (directly from GPS Trackers)
+- Added the option to upload gpx files (directly from GPS Trackers)
 - Fixed security issue for uploaded files (thanks to Matt Beckett)
 - Fixed issue for displaying maps for non-public posts and walled garden sites
 - Map display code moved from pages to object view

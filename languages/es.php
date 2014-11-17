@@ -56,10 +56,8 @@ $spanish = array(
     'sharemaps:display:number' => "Numero de mapas a mostrar",
 
     'river:create:object:sharemaps' => '%s mapa cargado %s',
-    'river:create:object:default' => '%s mapa cargado %s',
     'river:comment:object:sharemaps' => '%s comentar mapa %s',
-    'river:comment:object:default' => '%s comentar mapa %s',
-
+    
     'item:object:sharemaps' => 'Mapas',
 
     'sharemaps:newupload' => 'Un nuevo mapa se ha añadido',

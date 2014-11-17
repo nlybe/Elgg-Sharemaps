@@ -1,9 +1,10 @@
 <?php
 /**
  * Elgg sharemaps plugin
- *
  * @package ElggShareMaps
  */
+
+//http://gmaps-samples-v3.googlecode.com/svn/trunk/poly/poly_edit.html
 
 elgg_register_event_handler('init', 'system', 'sharemaps_init');
 

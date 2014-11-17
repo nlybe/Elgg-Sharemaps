@@ -57,8 +57,6 @@ $greek = array(
 
     'river:create:object:sharemaps' => '%s ανέβασε τη διαδρομή %s',
     'river:comment:object:sharemaps' => '%s σχολίασε τη διαδρομή %s',
-    'river:comment:object:sharemaps' => '%s σχολίασε τη διαδρομή %s',
-    'river:comment:object:default' => '%s σχολίασε τη διαδρομή %s',
     
     'item:object:file' => 'Διαδρομές',
 
