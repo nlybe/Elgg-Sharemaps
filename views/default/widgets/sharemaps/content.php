@@ -10,7 +10,7 @@ $num = $vars['entity']->num_display;
 
 $options = array(
 	'type' => 'object',
-	'subtype' => 'sharemaps',
+	'subtypes' => array('sharemaps', 'drawmap'),
 	'container_guid' => $vars['entity']->owner_guid,
 	'limit' => $num,
 	'full_view' => FALSE,

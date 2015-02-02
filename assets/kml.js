@@ -1,8 +1,8 @@
 function initialize(kmlmap) {
-  var chicago = new google.maps.LatLng(35.354442,24.801029);
+  var cpoint = new google.maps.LatLng(37.885798, 24.832000);
   var myOptions = {
-    zoom: 11,
-    center: chicago,
+    zoom: 2,
+    center: cpoint,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
 

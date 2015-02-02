@@ -42,7 +42,7 @@ class GoogleGeocode extends GeoAdapter
       $bounds_string = '';
     }
     
-    $url = "http://maps.googleapis.com/maps/api/geocode/json";
+    $url = "//maps.googleapis.com/maps/api/geocode/json";
     $url .= '?address='. urlencode($address);
     $url .= $bounds_string;
     $url .= '&sensor=false';

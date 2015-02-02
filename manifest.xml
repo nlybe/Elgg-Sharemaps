@@ -6,9 +6,9 @@
 	<category>bundled</category>
 	<category>content</category>
 	<category>widget</category>
-	<description>Share map files in elgg including gpx, kml and kmz.</description>
+	<description>Create or/and upload map files (gpx, kml and kmz) in Elgg sites.</description>
     <website>http://www.agoramap.com/</website>
-    <copyright>(C) AgoraMap 2012 - 2014</copyright>
+    <copyright>(C) AgoraMap 2012 - 2015</copyright>
 	<license>GNU General Public License version 2</license>
         <requires>
 		<type>elgg_release</type>

@@ -1,29 +1,34 @@
 <?php
 /**
- * View a map
- * @package ElggShareMaps
+ * Elgg ShareMaps plugin
+ * @package sharemaps
  */
 
-// include gpx libraries
-// elgg_load_library('elgg:sharemapsgeophp');
+elgg_load_library('elgg:sharemaps');
 
 // Get the guid
-$file_guid = (int) get_input('guid');
+$entity_guid = (int) get_input('guid');
 
 // Get the file
-$sharemaps = get_entity($file_guid);
+$sharemaps = get_entity($entity_guid);
 if (!$sharemaps) {
 	register_error(elgg_echo('noaccess'));
 	$_SESSION['last_forward_from'] = current_page_url();
 	forward('');
 }
 
-$sharemaps = new SharemapsPluginMap($file_guid);
+if (elgg_instanceof($sharemaps, 'object', 'drawmap')) {
+	$sharemaps = new Drawmap($entity_guid);
+}
+else {
+	$sharemaps = new SharemapsPluginMap($entity_guid);
+}
 
+/* obs
 global $CONFIG;
 if (!isset($CONFIG)) {
 	$CONFIG = new stdClass;
-}
+} */
 
 $owner = elgg_get_page_owner_entity();
 elgg_push_breadcrumb(elgg_echo('sharemaps'), 'sharemaps/all');
@@ -42,10 +47,10 @@ $content .= elgg_view_comments($sharemaps);
 
 if(!empty($sharemaps->originalfilename)) {  // add download button only for files
     elgg_register_menu_item('title', array(
-            'name' => 'download',
-            'text' => elgg_echo('sharemaps:download'),
-            'href' => "sharemaps/download/$sharemaps->guid",
-            'link_class' => 'elgg-button elgg-button-action',
+		'name' => 'download',
+		'text' => elgg_echo('sharemaps:download'),
+		'href' => "sharemaps/download/$sharemaps->guid",
+		'link_class' => 'elgg-button elgg-button-action',
     ));
 }
 

@@ -63,17 +63,8 @@ if ($full && !elgg_in_context('gallery')) {
 
 	/************************ map start ************************/
 	//Read map width and height from settings
-	$mapwidth = trim(elgg_get_plugin_setting('map_width', 'sharemaps'));
-	if (strripos($mapwidth, '%') === false) {
-		if (is_numeric($mapwidth))  $mapwidth = $mapwidth.'px';
-		else $mapwidth = '100%';
-	} 
-
-	$mapheight = trim(elgg_get_plugin_setting('map_height', 'sharemaps'));
-	if (strripos($mapheight, '%') === false) {
-		if (is_numeric($mapheight))  $mapheight = $mapheight.'px';
-		else $mapheight = '500px';
-	} 
+	$mapwidth = sharemaps_get_map_width();
+	$mapheight = sharemaps_get_map_height();
 
 	$mapbox = '';
 	if(empty($sharemaps->originalfilename)) {  // in case of gmap link
@@ -106,59 +97,9 @@ if ($full && !elgg_in_context('gallery')) {
 	 
 		if ($pos != false) {
 			elgg_load_css('kmlcss');
-			elgg_load_js('gkml');
-			elgg_load_js('kml');
+			elgg_load_js('sharemaps_gkml');
+			elgg_load_js('sharemaps_kml');
 
-			//add time parameter to load kml map
-			date_default_timezone_set('UTC');
-
-
-	/* obs        
-			// assign maps folder location elgg_get_plugins_path()
-			$mapspath = elgg_get_plugins_path().'sharemaps/maps/';
-			// remove files older than 15 minutes
-			$files = glob($mapspath.'*'); // get all file names
-			foreach($files as $file){ // iterate files
-					if(is_file($file))	{
-							$ttt = (time() - filemtime($file));
-							if ($ttt > 900)	{
-									unlink($file);
-							}
-					}
-			} 
-			 
-			// create new kml file with random filename
-			$randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz"), 0, 20);
-			$my_file = $randomString.'.kml';
-			$handle = fopen($mapspath.$my_file, 'w') or die('Cannot open kml file. Make sure that folder mod/sharemaps/maps is writable from web server');
-		   
-			// write entity kml content to file
-			// pro
-			if ($gpxfile)   {
-				$geometry = geoPHP::load(file_get_contents($mapfile), 'gpx');
-				$gpx_output = $geometry->out('kml');     
-				$header = '
-				<?xml version="1.0" encoding="UTF-8"?>
-				<kml xmlns="http://earth.google.com/kml/2.2">
-					<Document>
-						<name>'.$title.'</name>
-							<description><![CDATA[]]></description>
-								<Placemark>
-				';
-				$footer   =   '
-								</Placemark>                
-					</Document>
-				</kml>              
-				';            
-				fwrite($handle, $header.$gpx_output.$footer);
-			}
-			else    {
-				fwrite($handle, file_get_contents($mapfile));   // also in not pro
-			}
-			// pro        
-			
-			fclose($handle);
-			*/ 
 			//$kmlurl = elgg_get_site_url().'mod/sharemaps/maps/'.$my_file.'?t='.time();
 			$kmlurl = elgg_get_site_url().'sharemaps/filepath/'.$sharemaps->guid.'?t='.time();
 			$mapbox .= '<script language="javascript" type="text/javascript">';

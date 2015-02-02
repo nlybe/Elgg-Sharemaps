@@ -1,9 +1,10 @@
 <?php
 /**
- * Elgg sharemaps Individual's or group's maps
- *
- * @package ElggShareMaps
+ * Elgg ShareMaps plugin
+ * @package sharemaps
  */
+
+elgg_load_library('elgg:sharemaps');
 
 // access check for closed groups
 group_gatekeeper();
@@ -17,7 +18,11 @@ elgg_push_breadcrumb(elgg_echo('sharemaps'), "sharemaps/all");
 elgg_push_breadcrumb($owner->name);
 
 // insert google map button
-elgg_register_title_button('sharemaps','addembed');
+if (sharemaps_allow_gmaps_link()) { 
+	elgg_register_title_button('sharemaps','addembed');
+}
+// draw map button
+elgg_register_title_button('sharemaps','drawmap/add');
 // upload button
 elgg_register_title_button();
 
@@ -40,7 +45,7 @@ $title = elgg_echo("sharemaps:user", array($owner->name));
 // List maps
 $content = elgg_list_entities(array(
 	'types' => 'object',
-	'subtypes' => 'sharemaps',
+	'subtypes' => array('sharemaps', 'drawmap'),
 	'container_guid' => $owner->guid,
 	'limit' => 10,
 	'full_view' => FALSE,

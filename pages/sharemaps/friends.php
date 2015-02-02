@@ -1,9 +1,10 @@
 <?php
 /**
- * Elgg sharemaps friends maps
- *
- * @package ElggShareMaps
+ * Elgg ShareMaps plugin
+ * @package sharemaps
  */
+
+elgg_load_library('elgg:sharemaps');
 
 $owner = elgg_get_page_owner_entity();
 if (!$owner) {
@@ -15,14 +16,32 @@ elgg_push_breadcrumb($owner->name, "sharemaps/owner/$owner->username");
 elgg_push_breadcrumb(elgg_echo('friends'));
 
 // insert google map button
-elgg_register_title_button('sharemaps','addembed');
+if (sharemaps_allow_gmaps_link()) { 
+	elgg_register_title_button('sharemaps','addembed');
+}
+// draw map button
+elgg_register_title_button('sharemaps','drawmap/add');
 // upload button
 elgg_register_title_button();
 
 $title = elgg_echo("sharemaps:friends");
 
-// offset is grabbed in list_user_friends_objects
-$content = list_user_friends_objects($owner->guid, 'sharemaps', 10, false);
+// get current elgg version
+$release = elgg_get_version(true);
+if ($release < 1.9)  // version 1.8
+	$content = list_user_friends_objects($owner->guid, array('sharemaps', 'drawmap'), 10, false);
+else { // use this since Elgg 1.9
+	$content = elgg_list_entities_from_relationship(array(
+		'type' => 'object',
+		'subtype' => array('sharemaps', 'drawmap'),
+		'full_view' => false,
+		'limit' => 10,
+		'relationship' => 'friend',
+		'relationship_guid' => $owner->guid,
+		'relationship_join_on' => 'container_guid',
+	));
+}
+
 if (!$content) {
 	$content = elgg_echo("sharemaps:none");
 }

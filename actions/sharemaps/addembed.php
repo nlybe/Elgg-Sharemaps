@@ -1,9 +1,9 @@
 <?php
 /**
- * Elgg map uploader/edit action
- *
- * @package ElggShareMaps
+ * Elgg ShareMaps plugin
+ * @package sharemaps
  */
+ 
 elgg_load_library('elgg:sharemaps');
 
 // Get variables
@@ -51,34 +51,12 @@ if ($pos === false) {
 	forward(REFERER);
 }
 
-/* obs
-// check if valid url
-if (!is_valid_url_2($gmaplink))
-{
-        $error = elgg_echo('sharemaps:gmaplinknovalid');
-        register_error($error);
-        forward(REFERER);
-}
-
-// check if google maps url
-$pos = strpos($gmaplink, 'https://maps.google.');
-if ($pos === false) {
-        $error = elgg_echo('sharemaps:gmaplinknomapsgooglecom');
-        register_error($error);
-        forward(REFERER);
-} else if ($pos != 0) {
-        $error = '-->'.$pos;
-        register_error($error);
-        forward(REFERER);
-}
-*/
-
 if ($new_file) {
     // nikos, must have a link
     if (empty($gmaplink)) {
-            $error = elgg_echo('sharemaps:nogmaplink');
-            register_error($error);
-            forward(REFERER);
+		$error = elgg_echo('sharemaps:nogmaplink');
+		register_error($error);
+		forward(REFERER);
     }
     
     $sharemaps = new SharemapsPluginMap();
@@ -132,7 +110,19 @@ if ($new_file) {
 	if ($guid) {
 		$message = elgg_echo("sharemaps:saved");
 		system_message($message);
-		add_to_river('river/object/sharemaps/create', 'create', elgg_get_logged_in_user_guid(), $sharemaps->guid);
+		
+		// get current elgg version
+		$release = elgg_get_version(true);
+		if ($release < 1.9)  // version 1.8
+			add_to_river('river/object/sharemaps/create', 'create', elgg_get_logged_in_user_guid(), $sharemaps->guid);
+		else { // use this since Elgg 1.9
+			elgg_create_river_item(array(
+				'view' => 'river/object/sharemaps/create',
+				'action_type' => 'create',
+				'subject_guid' => elgg_get_logged_in_user_guid(),
+				'object_guid' => $sharemaps->guid,
+			));
+		}		
 	} else {
 		// failed to save map object - nothing we can do about this
 		$error = elgg_echo("sharemaps:uploadfailed");

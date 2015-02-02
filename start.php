@@ -1,18 +1,49 @@
 <?php
 /**
- * Elgg sharemaps plugin
- * @package ElggShareMaps
+ * Elgg ShareMaps plugin
+ * @package sharemaps
  */
+ 
+/**
+ * Elgg 1.8 compatibility
+ */
+if (!function_exists('elgg_get_version')) {
+	function elgg_get_version($human_readable = false) {
+		global $CONFIG;
 
-//http://gmaps-samples-v3.googlecode.com/svn/trunk/poly/poly_edit.html
+		static $version, $release;
+
+		if (isset($CONFIG->path)) {
+			if (!isset($version) || !isset($release)) {
+				if (!include($CONFIG->path . "version.php")) {
+					return false;
+				}
+			}
+			return $human_readable ? $release : $version;
+		}
+
+		return false;
+	}
+}
 
 elgg_register_event_handler('init', 'system', 'sharemaps_init');
+
+define('SHAREMAPS_GENERAL_YES', 'yes');	// general purpose string for yes
+define('SHAREMAPS_GENERAL_NO', 'no');	// general purpose string for no
+define('SHAREMAPS_MAP_OBJECT_MARKER', 1);		// marker id
+define('SHAREMAPS_MAP_OBJECT_POLYLINE', 2);		// polyline id
+define('SHAREMAPS_MAP_OBJECT_POLYGON', 3);		// polygon id
+define('SHAREMAPS_MAP_OBJECT_RECTANGLE', 4);	// rectangle id
+define('SHAREMAPS_MAP_OBJECT_CIRCLE', 5);		// circle id
 
 /**
  * Sharemaps plugin initialization functions.
  */
 function sharemaps_init() {
 
+    // Register subtype
+    run_function_once('sharemaps_manager_run_once_subtypes');
+    
     // register a library of helper functions
     elgg_register_library('elgg:sharemaps', elgg_get_plugins_path() . 'sharemaps/lib/sharemaps.php');
 
@@ -32,11 +63,18 @@ function sharemaps_init() {
     // register extra css files
     $css_url = '//code.google.com/apis/maps/documentation/javascript/examples/default.css';
     elgg_register_css('kmlcss', $css_url);
+    elgg_register_css('sharemaps_drawonmaps', elgg_get_site_url() . 'mod/sharemaps/assets/drawonmaps.css'); 
+    elgg_register_css('sharemaps_bootstrap', elgg_get_site_url() . 'mod/sharemaps/assets/bootstrap.min.css'); 
 
     // register extra js files
     $mapkey = trim(elgg_get_plugin_setting('google_api_key', 'sharemaps'));
-    elgg_register_js('gkml', '//maps.googleapis.com/maps/api/js?sensor=false&amp;key=' . $mapkey);
-    elgg_register_js('kml', '/mod/sharemaps/assets/kml.js');
+    elgg_register_js('sharemaps_gkml', '//maps.googleapis.com/maps/api/js?sensor=false&amp;key=' . $mapkey);
+    elgg_register_js('sharemaps_kml',  elgg_get_site_url() . 'mod/sharemaps/assets/kml.js');
+    elgg_register_js('sharemaps_ajaxgoogleapis', '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'); 
+    elgg_register_js('sharemaps_gmaps', elgg_get_site_url() . 'mod/sharemaps/assets/gmaps.js'); 
+    elgg_register_js('sharemaps_prettify', elgg_get_site_url() . 'mod/sharemaps/assets/prettify.js'); 
+    elgg_register_js('sharemaps_drawonmaps', elgg_get_site_url() . 'mod/sharemaps/assets/drawonmaps.js'); 
+    elgg_register_js('sharemaps_drawonmaps_elgg', elgg_get_site_url() . 'mod/sharemaps/assets/drawonmaps_elgg.js'); 
 
     // extend group main page
     elgg_extend_view('groups/tool_latest', 'sharemaps/group_module');
@@ -49,20 +87,35 @@ function sharemaps_init() {
 	
     // Add a new map widget
     //elgg_register_widget_type('sharemaps', elgg_echo("sharemaps"), elgg_echo("sharemaps:widget:description"));
-    elgg_register_widget_type('sharemaps', elgg_echo("sharemaps"), elgg_echo("sharemaps:widget:description"), 'profile,groups');
+    elgg_register_widget_type('sharemaps', elgg_echo("sharemaps"), elgg_echo("sharemaps:widget:description"), 'profile,groups,dashboard');
 
     // Register URL handlers for maps
-    elgg_register_entity_url_handler('object', 'sharemaps', 'sharemaps_url_override');
-    //elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'sharemaps_icon_url_override');
 
-    // Register granular notification for this object type
-    register_notification_object('object', 'sharemaps', elgg_echo('sharemaps:newupload'));
+    
+	// get current elgg version
+	$release = elgg_get_version(true);
+	if ($release < 1.9) { // version 1.8
+		// Register a URL handler for agora
+		elgg_register_entity_url_handler('object', 'sharemaps', 'sharemaps_url_override');
+		elgg_register_entity_url_handler('object', 'drawmap', 'sharemaps_url_override');	
+		
+		// Register granular notification for this object type
+		register_notification_object('object', 'sharemaps', elgg_echo('sharemaps:newupload'));	
+	}
+	else { // use this since Elgg 1.9
+		// Register a URL handler for agora
+		elgg_register_plugin_hook_handler('entity:url', 'object', 'sharemaps_set_url');
+		
+		// Register granular notification for this object type
+		elgg_register_notification_event('object', 'sharemaps', array('create'));
+	}    
 
     // Listen to notification events and supply a more useful message
     elgg_register_plugin_hook_handler('notify:entity:message', 'object', 'sharemaps_notify_message');
 
-    // Register entity type for search
+    // Register entities type for search
     elgg_register_entity_type('object', 'sharemaps');
+    elgg_register_entity_type('object', 'drawmap');
 
     // add a map link to owner blocks
     elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'sharemaps_owner_block_menu');
@@ -76,29 +129,30 @@ function sharemaps_init() {
     elgg_register_action("sharemaps/delete", "$action_path/delete.php");
     elgg_register_action("sharemaps/download", "$action_path/download.php");
     elgg_register_action("sharemaps/embed", "$action_path/addembed.php");
-    // obs elgg_register_action("sharemaps/filepath", "$action_path/filepath.php");
+    elgg_register_action("sharemaps/drawmap", "$action_path/drawmap.php");
+    elgg_register_action("sharemaps/drawmap/delete", "$action_path/dm_delete.php");
 
     // embed support
     $item = ElggMenuItem::factory(array(
-            'name' => 'sharemaps',
-            'text' => elgg_echo('sharemaps'),
-            'priority' => 10,
-            'data' => array(
-                    'options' => array(
-                            'type' => 'object',
-                            'subtype' => 'sharemaps',
-                    ),
-            ),
+		'name' => 'sharemaps',
+		'text' => elgg_echo('sharemaps'),
+		'priority' => 10,
+		'data' => array(
+			'options' => array(
+				'type' => 'object',
+				'subtype' => 'sharemaps',
+			),
+		),
     ));
     elgg_register_menu_item('embed', $item);
 
     $item = ElggMenuItem::factory(array(
-            'name' => 'sharemaps_upload',
-            'text' => elgg_echo('sharemaps:upload'),
-            'priority' => 100,
-            'data' => array(
-                    'view' => 'embed/sharemaps_upload/content',
-            ),
+		'name' => 'sharemaps_upload',
+		'text' => elgg_echo('sharemaps:upload'),
+		'priority' => 100,
+		'data' => array(
+			'view' => 'embed/sharemaps_upload/content',
+		),
     ));
     elgg_register_menu_item('embed', $item);
 
@@ -183,6 +237,18 @@ function sharemaps_page_handler($page) {
 			elgg_set_page_owner_guid($page[1]);
 			include "$file_dir/addembed.php";
 			break; 
+		case 'drawmap':
+			switch ($page[1]) {
+				case 'edit':
+					set_input('guid', $page[2]);
+					include "$file_dir/dm_edit.php";
+					break;		
+				case 'add':
+					elgg_set_page_owner_guid($page[2]);
+					include "$file_dir/drawmap.php";
+					break;						
+			}
+			break; 			
 		case 'filepath':
 			set_input('guid', $page[1]);
 			include "$file_dir/filepath.php";
@@ -259,12 +325,11 @@ function get_general_sharemaps_type($mimetype) {
 	return sharemaps_get_simple_type($mimetype);
 }
 
-
 /**
  * Returns a list of map types
  *
- * @param int       $container_guid The GUID of the container of the maps
- * @param bool      $friends Whether we're looking at the container or the container's friends
+ * @param int $container_guid The GUID of the container of the maps
+ * @param bool $friends Whether we're looking at the container or the container's friends
  * @return string The typecloud
  */
 function sharemaps_get_type_cloud($container_guid = "", $friends = false) {
@@ -273,8 +338,18 @@ function sharemaps_get_type_cloud($container_guid = "", $friends = false) {
 
 	if ($friends) {
 		// tags interface does not support pulling tags on friends' content so
-		// we need to grab all friends
-		$friend_entities = get_user_friends($container_guid, "", 999999, 0);
+		
+		// get current elgg version
+		$release = elgg_get_version(true);
+		if ($release < 1.9)  { // version 1.8
+			// we need to grab all friends
+			$friend_entities = get_user_friends($container_guid, "", 999999, 0);
+		}
+		else { // use this since Elgg 1.9
+			$owner = get_user($container_guid);
+			$friend_entities = $owner->getFriends(array('limit' => false));
+		}	
+			
 		if ($friend_entities) {
 			$friend_guids = array();
 			foreach ($friend_entities as $friend) {
@@ -319,6 +394,23 @@ function sharemaps_url_override($entity) {
 	$title = $entity->title;
 	$title = elgg_get_friendly_title($title);
 	return "sharemaps/view/" . $entity->getGUID() . "/" . $title;
+}
+
+/**
+ * Format and return the URL for sharemaps objects, since 1.9.
+ *
+ * @param string $hook
+ * @param string $type
+ * @param string $url
+ * @param array  $params
+ * @return string URL of agora.
+ */
+function sharemaps_set_url($hook, $type, $url, $params) {
+	$entity = $params['entity'];
+	if (elgg_instanceof($entity, 'object', 'sharemaps') || elgg_instanceof($entity, 'object', 'drawmap')) {
+		$friendly_title = elgg_get_friendly_title($entity->title);
+		return "sharemaps/view/{$entity->guid}/$friendly_title";
+	}
 }
 
 

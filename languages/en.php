@@ -1,8 +1,7 @@
 <?php
 /**
- * Elgg sharemaps plugin language pack
- *
- * @package ElggShareMaps
+ * Elgg ShareMaps plugin
+ * @package sharemaps
  */
 
 $english = array(
@@ -14,7 +13,7 @@ $english = array(
     'sharemaps:friends' => "Friends' maps",
     'sharemaps:all' => "All site maps",
     'sharemaps:edit' => "Edit map",
-    'sharemaps:more' => "More map",
+    'sharemaps:more' => "More maps",
     'sharemaps:list' => "list view",
     'sharemaps:group' => "Group maps",
     'sharemaps:gallery' => "gallery view",
@@ -57,8 +56,10 @@ $english = array(
 
     'river:create:object:sharemaps' => '%s uploaded the map %s',
     'river:comment:object:sharemaps' => '%s commented on the map %s',
+    'river:create:object:drawmap' => '%s created the map %s',
     
     'item:object:sharemaps' => 'Maps',
+    'item:object:drawmap' => 'Maps',
 
     'sharemaps:newupload' => 'A new map has been uploaded',
     'sharemaps:notification' =>
@@ -85,6 +86,7 @@ View and comment on the new map:
     'sharemaps:nofile' => "You must select a map file",
     'sharemaps:nokmlfile' => "Invalid file type. File type must be Google Earth KML or KMZ",
     'sharemaps:noaccesstofilemap' => "No access to file map",
+    'sharemaps:add:noaccessforpost' => "No valid access for this action",
 
     // settings
     'sharemaps:settings:google_maps' => 'Google Maps settings',
@@ -94,6 +96,10 @@ View and comment on the new map:
     'sharemaps:settings:map_width:how' => 'Numeric value (e.g. 500) or % (e.g. 100%)',
     'sharemaps:settings:map_height' => 'Height of map',
     'sharemaps:settings:map_height:how' => 'Numeric value (e.g. 500)',
+    'sharemaps:settings:no' => "No",
+    'sharemaps:settings:yes' => "Yes",   
+    'sharemaps:settings:allow_gmaps_links' => 'Allow to insert Google Maps Links',
+     
     
     // embed maps
     'sharemaps:embed' => 'Insert a google map link',
@@ -105,6 +111,14 @@ View and comment on the new map:
     'sharemaps:gmaplinknomapsgooglecom' => 'No valid google map link',
     'sharemaps:nogmaplink' => 'Google map link is empty',
     'sharemaps:dosekapoiotitle' => 'Title is empty. Enter a title.',
+    
+    // draw maps
+    'sharemaps:drawmap' => 'Draw a map',
+    'sharemaps:drawmap/add' => 'Draw a map',
+    'item:object:drawmap' => 'Draw maps',
+    'item:object:drawmapobject' => 'Draw maps objects',
+    'sharemaps:drawmap:save' => 'Save map',
+    'sharemaps:drawmap:draw' => 'Select shapes from list below to add to the map',
         
     // gpx files
     'sharemaps:novalidfile' => "Invalid file type. File type must be .gpx or Google Earth KML or KMZ",

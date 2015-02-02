@@ -55,8 +55,16 @@ if (!$owner) {
 $sidebar = sharemaps_get_type_cloud($page_owner_guid, $friends);
 
 if ($friends) {
-	// elgg_does not support getting objects that belong to an entity's friends
-	$friend_entities = get_user_friends($page_owner_guid, "", 999999, 0);
+	// get current elgg version
+	$release = elgg_get_version(true);
+	if ($release < 1.9)  { // version 1.8
+		// elgg_does not support getting objects that belong to an entity's friends
+		$friend_entities = get_user_friends($page_owner_guid, "", 999999, 0);
+	}
+	else { // use this since Elgg 1.9
+		$friend_entities = $owner->getFriends(array('limit' => false))
+	}	
+
 	if ($friend_entities) {
 		$friend_guids = array();
 		foreach ($friend_entities as $friend) {

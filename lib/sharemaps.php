@@ -1,8 +1,7 @@
 <?php
 /**
- * Elgg sharemaps helper functions
- *
- * @package ElggShareMaps
+ * Elgg ShareMaps plugin
+ * @package sharemaps
  */
 
 /**
@@ -78,12 +77,45 @@ function sharemaps_prepare_form_vars_gmaplink($sharemaps = null) {
 	return $values;
 }
 
+function sharemaps_prepare_form_vars_drawmap($drawmap = null) {
+
+	// input names => defaults
+	$values = array(
+		'title' => '',
+		'description' => '',
+		'access_id' => ACCESS_DEFAULT,
+		'tags' => '',
+		'container_guid' => elgg_get_page_owner_guid(),
+		'guid' => null,
+        'dm_markers' => '',
+		'entity' => $drawmap,
+	);
+
+	if ($drawmap) {
+		foreach (array_keys($values) as $field) {
+			if (isset($drawmap->$field)) {
+				$values[$field] = $drawmap->$field;
+			}
+		}
+	}
+
+	if (elgg_is_sticky_form('drawmap')) {
+		$sticky_values = elgg_get_sticky_values('drawmap');
+		foreach ($sticky_values as $key => $value) {
+			$values[$key] = $value;
+		}
+	}
+
+	elgg_clear_sticky_form('drawmap');
+
+	return $values;
+}
+
 /**
 * Validate URL
 */
 function is_valid_url($url)
 {
-    //print_r('xxxxxxxxxxxxxxxx'); 
     if (!($url = @parse_url($url)))
     {
         return false;
@@ -137,4 +169,36 @@ function getFilePath($eid)
     }
 
     return $mapobject->getFilenameOnFilestore();
+}
+
+// check if allow or not to insert google maps links
+function sharemaps_allow_gmaps_link() {
+    $get_param = trim(elgg_get_plugin_setting('allow_gmaps_links', 'sharemaps'));
+
+    if ($get_param === SHAREMAPS_GENERAL_YES) 
+		return true;
+	
+    return false;
+}
+
+// get map width from settings
+function sharemaps_get_map_width() {
+	$mapwidth = trim(elgg_get_plugin_setting('map_width', 'sharemaps'));
+	if (strripos($mapwidth, '%') === false) {
+		if (is_numeric($mapwidth))  $mapwidth = $mapwidth.'px';
+		else $mapwidth = '100%';
+	} 
+	
+    return $mapwidth;
+}
+
+// get map height from settings
+function sharemaps_get_map_height() {
+	$mapheight = trim(elgg_get_plugin_setting('map_height', 'sharemaps'));
+	if (strripos($mapheight, '%') === false) {
+		if (is_numeric($mapheight))  $mapheight = $mapheight.'px';
+		else $mapheight = '400px';
+	} 
+	
+    return $mapheight;
 }
