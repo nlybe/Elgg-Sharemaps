@@ -113,9 +113,9 @@ View and comment on the new map:
     'sharemaps:dosekapoiotitle' => 'Title is empty. Enter a title.',
     
     // draw maps
-    'sharemaps:drawmap' => 'Draw a map',
-    'sharemaps:drawmap/add' => 'Draw a map',
-    'item:object:drawmap' => 'Draw maps',
+    'sharemaps:drawmap' => 'Create map',
+    'sharemaps:drawmap/add' => 'Create map',
+    'item:object:drawmap' => 'Create maps',
     'item:object:drawmapobject' => 'Draw maps objects',
     'sharemaps:drawmap:save' => 'Save map',
     'sharemaps:drawmap:draw' => 'Select shapes from list below to add to the map',

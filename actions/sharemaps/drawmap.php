@@ -98,7 +98,9 @@ if ($guid) {
 				system_message(elgg_echo("sharemaps:drawmap:object_not_saved"));
 			}
 		}
-		
+	}
+	
+	if ($line_title) {	
 		foreach( $line_title as $key => $n ) {	// new map polylines record created
 			$dmap_object = new DrawmapObject();
 			$dmap_object->title = $n;
@@ -110,7 +112,9 @@ if ($guid) {
 				system_message(elgg_echo("sharemaps:drawmap:object_not_saved"));
 			}
 		}
+	}
 		
+	if ($poly_title) {
 		foreach( $poly_title as $key => $n ) {	// new map polygons record created
 			$dmap_object = new DrawmapObject();
 			$dmap_object->title = $n;
@@ -122,7 +126,9 @@ if ($guid) {
 				system_message(elgg_echo("sharemaps:drawmap:object_not_saved"));
 			}
 		}
+	}
 		
+	if ($rect_title) {
 		foreach( $rect_title as $key => $n ) {	// new map rectangles record created
 			$dmap_object = new DrawmapObject();
 			$dmap_object->title = $n;
@@ -134,7 +140,9 @@ if ($guid) {
 				system_message(elgg_echo("sharemaps:drawmap:object_not_saved"));
 			}
 		}
+	}
 		
+	if ($circle_title) {
 		foreach( $circle_title as $key => $n ) {	// new map circles record created
 			$dmap_object = new DrawmapObject();
 			$dmap_object->title = $n;

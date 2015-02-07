@@ -1,12 +1,18 @@
 CHANGE LOG
 
+1.8.7.1
+---------------------
+- Fixed bug when creating maps
+- Fixed bug on group view
+- Added option for creating map on groups 
+
 1.8.7
 ---------------------
+- Added compatibility for Elgg 1.9
 - Added the option for creating maps on line by adding markers and drawing polygons, rectangles, polylines and circles in order to create maps online. Elgg site members are able to add/edit/delete objects on Google Maps. 
 - Added option in setting to allow or not inserting google maps links
 - fixed issue #4 on github
 - Several code improvements
-- Added compatibility for Elgg 1.9
 
 1.8.6
 ---------------------

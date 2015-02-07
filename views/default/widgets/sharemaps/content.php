@@ -5,7 +5,7 @@
  * @package ElggShareMaps
  */
 
-
+elgg_load_library('elgg:sharemaps');
 $num = $vars['entity']->num_display;
 
 $options = array(

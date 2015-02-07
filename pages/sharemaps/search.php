@@ -62,7 +62,7 @@ if ($friends) {
 		$friend_entities = get_user_friends($page_owner_guid, "", 999999, 0);
 	}
 	else { // use this since Elgg 1.9
-		$friend_entities = $owner->getFriends(array('limit' => false))
+		$friend_entities = $owner->getFriends(array('limit' => false));
 	}	
 
 	if ($friend_entities) {

@@ -3,6 +3,7 @@
  * Group map module
  */
 
+elgg_load_library('elgg:sharemaps');
 $group = elgg_get_page_owner_entity();
 
 if ($group->sharemaps_enable == "no") {
@@ -31,9 +32,15 @@ if (!$content) {
 	$content = '<p>' . elgg_echo('sharemaps:none') . '</p>';
 }
 
-$new_link = elgg_view('output/url', array(
+$upload_link = elgg_view('output/url', array(
 	'href' => "sharemaps/add/$group->guid",
 	'text' => elgg_echo('sharemaps:add'),
+	'is_trusted' => true,
+));
+
+$create_link = elgg_view('output/url', array(
+	'href' => "sharemaps/drawmap/add/$group->guid",
+	'text' => elgg_echo('sharemaps:drawmap'),
 	'is_trusted' => true,
 ));
 
@@ -41,5 +48,5 @@ echo elgg_view('groups/profile/module', array(
 	'title' => elgg_echo('sharemaps:group'),
 	'content' => $content,
 	'all_link' => $all_link,
-	'add_link' => $new_link,
+	'add_link' => $upload_link.' - '.$create_link,
 ));
