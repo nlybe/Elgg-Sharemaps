@@ -93,6 +93,7 @@ if ($guid) {
 			$dmap_object->coords = $marker_coords[$key];
 			$dmap_object->object_id = SHAREMAPS_MAP_OBJECT_MARKER;
 			$dmap_object->map_guid = $dmap->guid;
+			$dmap_object->access_id = $access_id;
 			
 			if (!$dmap_object->save())	{
 				system_message(elgg_echo("sharemaps:drawmap:object_not_saved"));
@@ -107,6 +108,7 @@ if ($guid) {
 			$dmap_object->coords = $line_coords[$key];
 			$dmap_object->object_id = SHAREMAPS_MAP_OBJECT_POLYLINE;
 			$dmap_object->map_guid = $dmap->guid;
+			$dmap_object->access_id = $access_id;
 			
 			if (!$dmap_object->save())	{
 				system_message(elgg_echo("sharemaps:drawmap:object_not_saved"));
@@ -121,6 +123,7 @@ if ($guid) {
 			$dmap_object->coords = $poly_coords[$key];
 			$dmap_object->object_id = SHAREMAPS_MAP_OBJECT_POLYGON;
 			$dmap_object->map_guid = $dmap->guid;
+			$dmap_object->access_id = $access_id;
 			
 			if (!$dmap_object->save())	{
 				system_message(elgg_echo("sharemaps:drawmap:object_not_saved"));
@@ -135,6 +138,7 @@ if ($guid) {
 			$dmap_object->coords = $rect_coords[$key];
 			$dmap_object->object_id = SHAREMAPS_MAP_OBJECT_RECTANGLE;
 			$dmap_object->map_guid = $dmap->guid;
+			$dmap_object->access_id = $access_id;
 			
 			if (!$dmap_object->save())	{
 				system_message(elgg_echo("sharemaps:drawmap:object_not_saved"));
@@ -149,6 +153,7 @@ if ($guid) {
 			$dmap_object->coords = $circle_coords[$key];
 			$dmap_object->object_id = SHAREMAPS_MAP_OBJECT_CIRCLE;
 			$dmap_object->map_guid = $dmap->guid;
+			$dmap_object->access_id = $access_id;
 			
 			if (!$dmap_object->save())	{
 				system_message(elgg_echo("sharemaps:drawmap:object_not_saved"));

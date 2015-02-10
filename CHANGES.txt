@@ -3,6 +3,7 @@ CHANGE LOG
 1.8.7.1
 ---------------------
 - Fixed bug when creating maps
+- Fixed bug on saving map objects
 - Fixed bug on group view
 - Added option for creating map on groups 
 
