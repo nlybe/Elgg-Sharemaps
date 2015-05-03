@@ -5,7 +5,7 @@
  */
  
 /**
- * Elgg 1.8 compatibility
+ * Elgg backward compatibility if required
  */
 if (!function_exists('elgg_get_version')) {
 	function elgg_get_version($human_readable = false) {
@@ -87,28 +87,16 @@ function sharemaps_init() {
 	
     // Add a new map widget
     //elgg_register_widget_type('sharemaps', elgg_echo("sharemaps"), elgg_echo("sharemaps:widget:description"));
-    elgg_register_widget_type('sharemaps', elgg_echo("sharemaps"), elgg_echo("sharemaps:widget:description"), 'profile,groups,dashboard');
+    elgg_register_widget_type('sharemaps', elgg_echo("sharemaps"), elgg_echo("sharemaps:widget:description"), array('profile','groups','dashboard'));
 
     // Register URL handlers for maps
 
     
-	// get current elgg version
-	$release = elgg_get_version(true);
-	if ($release < 1.9) { // version 1.8
-		// Register a URL handler for agora
-		elgg_register_entity_url_handler('object', 'sharemaps', 'sharemaps_url_override');
-		elgg_register_entity_url_handler('object', 'drawmap', 'sharemaps_url_override');	
-		
-		// Register granular notification for this object type
-		register_notification_object('object', 'sharemaps', elgg_echo('sharemaps:newupload'));	
-	}
-	else { // use this since Elgg 1.9
-		// Register a URL handler for agora
-		elgg_register_plugin_hook_handler('entity:url', 'object', 'sharemaps_set_url');
-		
-		// Register granular notification for this object type
-		elgg_register_notification_event('object', 'sharemaps', array('create'));
-	}    
+	// Register a URL handler for agora
+	elgg_register_plugin_hook_handler('entity:url', 'object', 'sharemaps_set_url');
+	
+	// Register granular notification for this object type
+	elgg_register_notification_event('object', 'sharemaps', array('create'));
 
     // Listen to notification events and supply a more useful message
     elgg_register_plugin_hook_handler('notify:entity:message', 'object', 'sharemaps_notify_message');
@@ -339,16 +327,8 @@ function sharemaps_get_type_cloud($container_guid = "", $friends = false) {
 	if ($friends) {
 		// tags interface does not support pulling tags on friends' content so
 		
-		// get current elgg version
-		$release = elgg_get_version(true);
-		if ($release < 1.9)  { // version 1.8
-			// we need to grab all friends
-			$friend_entities = get_user_friends($container_guid, "", 999999, 0);
-		}
-		else { // use this since Elgg 1.9
-			$owner = get_user($container_guid);
-			$friend_entities = $owner->getFriends(array('limit' => false));
-		}	
+		$owner = get_user($container_guid);
+		$friend_entities = $owner->getFriends(array('limit' => false));
 			
 		if ($friend_entities) {
 			$friend_guids = array();

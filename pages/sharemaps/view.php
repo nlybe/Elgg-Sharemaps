@@ -24,12 +24,6 @@ else {
 	$sharemaps = new SharemapsPluginMap($entity_guid);
 }
 
-/* obs
-global $CONFIG;
-if (!isset($CONFIG)) {
-	$CONFIG = new stdClass;
-} */
-
 $owner = elgg_get_page_owner_entity();
 elgg_push_breadcrumb(elgg_echo('sharemaps'), 'sharemaps/all');
 

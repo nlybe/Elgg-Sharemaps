@@ -8,7 +8,6 @@ $full = elgg_extract('full_view', $vars, FALSE);
 
 if ($full && !elgg_in_context('gallery')) {
 	elgg_load_js('sharemaps_gkml');
-	elgg_load_js('sharemaps_ajaxgoogleapis');
 	elgg_load_js('sharemaps_gmaps');
 	elgg_load_js('sharemaps_prettify');
 	elgg_load_js('sharemaps_drawonmaps');

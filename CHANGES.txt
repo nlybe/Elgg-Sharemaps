@@ -1,5 +1,10 @@
 CHANGE LOG
 
+1.11.8
+---------------------
+- Fixed bug for map objects permissions when creating a map
+- Several code improvements
+
 1.8.7.1
 ---------------------
 - Fixed bug when creating maps

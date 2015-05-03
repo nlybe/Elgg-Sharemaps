@@ -162,18 +162,12 @@ if ($guid) {
 	}
 			
 	if ($new_map) {
-		// get current elgg version
-		$release = elgg_get_version(true);
-		if ($release < 1.9)  // version 1.8
-			add_to_river('river/object/sharemaps/create', 'create', elgg_get_logged_in_user_guid(), $dmap->guid);
-		else { // use this since Elgg 1.9
-			elgg_create_river_item(array(
-				'view' => 'river/object/sharemaps/create',
-				'action_type' => 'create',
-				'subject_guid' => elgg_get_logged_in_user_guid(),
-				'object_guid' => $dmap->guid,
-			));
-		}		
+		elgg_create_river_item(array(
+			'view' => 'river/object/sharemaps/create',
+			'action_type' => 'create',
+			'subject_guid' => elgg_get_logged_in_user_guid(),
+			'object_guid' => $dmap->guid,
+		));
 	}
 	
 	system_message(elgg_echo("sharemaps:saved"));

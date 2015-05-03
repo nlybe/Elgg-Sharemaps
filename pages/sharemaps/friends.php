@@ -26,21 +26,15 @@ elgg_register_title_button();
 
 $title = elgg_echo("sharemaps:friends");
 
-// get current elgg version
-$release = elgg_get_version(true);
-if ($release < 1.9)  // version 1.8
-	$content = list_user_friends_objects($owner->guid, array('sharemaps', 'drawmap'), 10, false);
-else { // use this since Elgg 1.9
-	$content = elgg_list_entities_from_relationship(array(
-		'type' => 'object',
-		'subtype' => array('sharemaps', 'drawmap'),
-		'full_view' => false,
-		'limit' => 10,
-		'relationship' => 'friend',
-		'relationship_guid' => $owner->guid,
-		'relationship_join_on' => 'container_guid',
-	));
-}
+$content = elgg_list_entities_from_relationship(array(
+	'type' => 'object',
+	'subtype' => array('sharemaps', 'drawmap'),
+	'full_view' => false,
+	'limit' => 10,
+	'relationship' => 'friend',
+	'relationship_guid' => $owner->guid,
+	'relationship_join_on' => 'container_guid',
+));
 
 if (!$content) {
 	$content = elgg_echo("sharemaps:none");

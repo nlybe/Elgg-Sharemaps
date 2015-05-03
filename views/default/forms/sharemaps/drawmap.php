@@ -5,13 +5,11 @@
  */
  
 elgg_load_js('sharemaps_gkml');
-elgg_load_js('sharemaps_ajaxgoogleapis');
 elgg_load_js('sharemaps_gmaps');
 elgg_load_js('sharemaps_prettify');
 elgg_load_js('sharemaps_drawonmaps');
 elgg_load_js('sharemaps_drawonmaps_elgg');
 elgg_load_css('sharemaps_drawonmaps');
-//elgg_load_css('sharemaps_bootstrap');
 
 $title = elgg_extract('title', $vars, '');
 $description = elgg_extract('description', $vars, '');

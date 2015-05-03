@@ -75,26 +75,32 @@ if ($new_file) {
         $pos = strripos($mapfile, '.kml');
 
         if ($pos === false) {
-                $pos = strripos($mapfile, '.kmz');
+			$pos = strripos($mapfile, '.kmz');
         }
 
         if ($pos === false) {
-                $pos = strripos($mapfile, '.gpx');
+            $pos = strripos($mapfile, '.gpx');
         }    
 
         if ($pos === false) {
-                $error = elgg_echo('sharemaps:novalidfile'); 
-                register_error($error);
-                forward(REFERER);
+			$error = elgg_echo('sharemaps:novalidfile'); 
+			register_error($error);
+			forward(REFERER);
         } 
     }
     
     // load original file object
-    $sharemaps = new SharemapsPluginMap($guid);
+    /*$sharemaps = new SharemapsPluginMap($guid);
     if (!$sharemaps) {
             register_error(elgg_echo('sharemaps:cannotload'));
             forward(REFERER);
-    }
+    }*/
+    
+	$sharemaps = get_entity($guid);
+	if (!elgg_instanceof($sharemaps, 'object', 'sharemaps') || !$sharemaps->canEdit()) {
+		register_error(elgg_echo('sharemaps:cannotload'));
+		forward(REFERER);
+	}    
 
     // user must be able to edit map
     if (!$sharemaps->canEdit()) {
@@ -198,18 +204,12 @@ if ($new_file) {
 		$message = elgg_echo("sharemaps:saved");
 		system_message($message);
 		
-		// get current elgg version
-		$release = elgg_get_version(true);
-		if ($release < 1.9)  // version 1.8
-			add_to_river('river/object/sharemaps/create', 'create', elgg_get_logged_in_user_guid(), $sharemaps->guid);
-		else { // use this since Elgg 1.9
-			elgg_create_river_item(array(
-				'view' => 'river/object/sharemaps/create',
-				'action_type' => 'create',
-				'subject_guid' => elgg_get_logged_in_user_guid(),
-				'object_guid' => $sharemaps->guid,
-			));
-		}
+		elgg_create_river_item(array(
+			'view' => 'river/object/sharemaps/create',
+			'action_type' => 'create',
+			'subject_guid' => elgg_get_logged_in_user_guid(),
+			'object_guid' => $sharemaps->guid,
+		));
 					
 	} else {
 		// failed to save map object - nothing we can do about this
