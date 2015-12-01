@@ -95,8 +95,9 @@ function sharemaps_init() {
 	// Register a URL handler for agora
 	elgg_register_plugin_hook_handler('entity:url', 'object', 'sharemaps_set_url');
 	
-	// Register granular notification for this object type
+	// Register granular notification for these object type
 	elgg_register_notification_event('object', 'sharemaps', array('create'));
+	elgg_register_notification_event('object', 'drawmap', array('create'));
 
     // Listen to notification events and supply a more useful message
     elgg_register_plugin_hook_handler('notify:entity:message', 'object', 'sharemaps_notify_message');
@@ -260,7 +261,7 @@ function sharemaps_notify_message($hook, $entity_type, $returnvalue, $params) {
 	$entity = $params['entity'];
 	$to_entity = $params['to_entity'];
 	$method = $params['method'];
-	if (($entity instanceof ElggEntity) && ($entity->getSubtype() == 'sharemaps')) {
+	if (($entity instanceof ElggEntity) && ($entity->getSubtype() == 'sharemaps' || $entity->getSubtype() == 'drawmap')) {
 		$descr = $entity->description;
 		$title = $entity->title;
 		$owner = $entity->getOwnerEntity();
