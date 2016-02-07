@@ -325,7 +325,9 @@
 		// add input boxes and options for every marker addition
 		GMaps.on('marker_added', map, function(marker) {
 			//var xxx = map.markers.length-1;
-			$('#allmarks').append('<div id="marker_'+map.markers.indexOf(marker)+'_div"><input name="marker_title[]" type="text" id="marker_'+map.markers.indexOf(marker)+'" value="Marker #'+map.markers.indexOf(marker)+'"><input name="marker_coords[]" id="marker_coords_'+map.markers.indexOf(marker)+'" type="text" value="(' + marker.getPosition().lat() + ',' + marker.getPosition().lng() + ')">&nbsp;&nbsp;<button type="button" class="btn btn-info btn-xs pan-to-marker" id="marker_'+map.markers.indexOf(marker)+'_cnr" data-marker-lat="' + marker.getPosition().lat() + '" data-marker-lng="' + marker.getPosition().lng() + '">Show marker</button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-xs" id="marker_'+map.markers.indexOf(marker)+'_rmv" href="#" onClick="deleteMarker('+map.markers.indexOf(marker)+');">Remove</button></div>');
+			//$('#allmarks').append('<div id="marker_'+map.markers.indexOf(marker)+'_div"><input name="marker_title[]" type="text" id="marker_'+map.markers.indexOf(marker)+'" value="Marker #'+map.markers.indexOf(marker)+'"><input name="marker_coords[]" id="marker_coords_'+map.markers.indexOf(marker)+'" type="text" value="(' + marker.getPosition().lat() + ',' + marker.getPosition().lng() + ')">&nbsp;&nbsp;<button type="button" class="btn btn-info btn-xs pan-to-marker" id="marker_'+map.markers.indexOf(marker)+'_cnr" data-marker-lat="' + marker.getPosition().lat() + '" data-marker-lng="' + marker.getPosition().lng() + '">Show marker</button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-xs" id="marker_'+map.markers.indexOf(marker)+'_rmv" href="#" onClick="deleteMarker('+map.markers.indexOf(marker)+');">Remove</button></div>');
+			$('#allmarks').append('<div id="marker_'+map.markers.indexOf(marker)+'_div"><input name="marker_title[]" type="text" id="marker_'+map.markers.indexOf(marker)+'" value="'+marker.getTitle()+'"><input name="marker_coords[]" id="marker_coords_'+map.markers.indexOf(marker)+'" type="text" value="(' + marker.getPosition().lat() + ',' + marker.getPosition().lng() + ')">&nbsp;&nbsp;<button type="button" class="btn btn-info btn-xs pan-to-marker" id="marker_'+map.markers.indexOf(marker)+'_cnr" data-marker-lat="' + marker.getPosition().lat() + '" data-marker-lng="' + marker.getPosition().lng() + '">Show marker</button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-xs" id="marker_'+map.markers.indexOf(marker)+'_rmv" href="#" onClick="deleteMarker('+map.markers.indexOf(marker)+');">Remove</button></div>');
+			
 		});
 
 		// add a marker on maap if markers option is enabled
@@ -793,7 +795,7 @@
 			  content: title
 			}
 		});		
-	}		
+	}	
 	
 	// draw a polyline from a given path
 	function loadPolyline(path,title) {

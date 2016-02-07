@@ -1,5 +1,11 @@
 CHANGE LOG
 
+1.12.9
+---------------------
+- Checked compatibility for Elgg 1.12
+- Fixed bug on markers input when editing map (thanks to olairmarcos)
+- Some code improvements
+
 1.11.8
 ---------------------
 - Fixed bug for map objects permissions when creating a map
