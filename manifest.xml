@@ -17,7 +17,7 @@
     <requires>
 		<type>plugin</type>
 		<name>file</name>
-		<version>1.9.0</version>
+		<version>1.9</version>
     </requires>	
 	<activate_on_install>true</activate_on_install>
 </plugin_manifest>
