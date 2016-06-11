@@ -1,8 +1,7 @@
 <?php
 /**
- * Map renderer.
- *
- * @package ElggShareMaps
+ * Elgg Sharemaps Plugin
+ * @package sharemaps 
  */
 
 $full = elgg_extract('full_view', $vars, FALSE);
@@ -14,7 +13,6 @@ if (!$sharemaps) {
 
 $owner = $sharemaps->getOwnerEntity();
 $container = $sharemaps->getContainerEntity();
-$categories = elgg_view('output/categories', $vars);
 $excerpt = elgg_get_excerpt($sharemaps->description);
 $mime = $sharemaps->mimetype;
 $base_type = substr($mime, 0, strpos($mime,'/'));
@@ -26,7 +24,7 @@ $owner_link = elgg_view('output/url', array(
 ));
 $author_text = elgg_echo('byline', array($owner_link));
 $owner_icon = elgg_view_entity_icon($owner, 'small');
-//$file_icon = elgg_view_entity_icon($sharemaps, 'small');
+
 
 $date = elgg_view_friendly_time($sharemaps->time_created);
 
@@ -50,7 +48,7 @@ $metadata = elgg_view_menu('entity', array(
 	'class' => 'elgg-menu-hz',
 ));
 
-$subtitle = "$author_text $date $comments_link $categories";
+$subtitle = "$author_text $date $comments_link";
 
 // do not show the metadata and controls in widget view
 if (elgg_in_context('widgets')) {
@@ -63,15 +61,15 @@ if ($full && !elgg_in_context('gallery')) {
 
 	/************************ map start ************************/
 	//Read map width and height from settings
-	$mapwidth = sharemaps_get_map_width();
-	$mapheight = sharemaps_get_map_height();
+	$map_width = sharemaps_get_map_width();
+	$map_height = sharemaps_get_map_height();
 
 	$mapbox = '';
 	if(empty($sharemaps->originalfilename)) {  // in case of gmap link
 	   if(!empty($sharemaps->gmaplink)) {
 		   $mapbox .= '<br />';
 		   $mapbox .= '<div>';
-		   $mapbox .= '<iframe style="border:1px solid #eee;" width="'.$mapwidth.'" height="'.$mapheight.'" scrolling="no" marginheight="0" marginwidth="0" src="'.$sharemaps->gmaplink.'&amp;output=embed"></iframe>';
+		   $mapbox .= '<iframe style="border:1px solid #eee;" width="'.$map_width.'" height="'.$map_height.'" scrolling="no" marginheight="0" marginwidth="0" src="'.$sharemaps->gmaplink.'&amp;output=embed"></iframe>';
 		   $mapbox .= '</div>';
 	   }
 	}
@@ -92,24 +90,13 @@ if ($full && !elgg_in_context('gallery')) {
 		
 		// check if kmz file
 		if ($pos === false) {
-			   $pos = strripos($mapfile, '.kmz');
+           $pos = strripos($mapfile, '.kmz');
 		}  
 	 
 		if ($pos != false) {
-			elgg_load_css('kmlcss');
-			elgg_load_js('sharemaps_gkml');
-			elgg_load_js('sharemaps_kml');
-
-			//$kmlurl = elgg_get_site_url().'mod/sharemaps/maps/'.$my_file.'?t='.time();
-			$kmlurl = elgg_get_site_url().'sharemaps/filepath/'.$sharemaps->guid.'?t='.time();
-			$mapbox .= '<script language="javascript" type="text/javascript">';
-			$mapbox .= 'window.onload = function () {';
-			$mapbox .= 'initialize(encodeURI("'.$kmlurl.'"));';
-			$mapbox .= '}';
-			$mapbox .= '</script>';
-			$mapbox .= '<br />';
-			$mapbox .= '<div id="map_canvas" style="width:'.$mapwidth.'; height:'.$mapheight.'; border:1px solid #eee; "></div>';
-		   
+            $vars['map_width'] = $map_width;
+            $vars['map_height'] = $map_height;
+            $mapbox = elgg_view('sharemaps/map_box', $vars);
 		}    
 		
 	}

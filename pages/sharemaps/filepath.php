@@ -28,8 +28,6 @@ if (!$mime) {
 
 $filename = $sharemaps->originalfilename;
 
-//error_log('------------------>'.$filename);
-			
 // fix for IE https issue
 header("Pragma: public");
 

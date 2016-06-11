@@ -1,11 +1,10 @@
 <?php
 /**
- * Elgg map uploader/edit action
- *
- * @package ElggShareMaps
+ * Elgg ShareMaps plugin
+ * @package sharemaps
  */
  
-elgg_load_library('elgg:sharemapsgeophp'); 
+elgg_load_library('elgg:sharemaps_geophp'); 
 
 // Get variables
 $title = get_input("title");

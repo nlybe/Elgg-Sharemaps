@@ -186,7 +186,7 @@ function sharemaps_get_map_width() {
 	$mapwidth = trim(elgg_get_plugin_setting('map_width', 'sharemaps'));
 	if (strripos($mapwidth, '%') === false) {
 		if (is_numeric($mapwidth))  $mapwidth = $mapwidth.'px';
-		else $mapwidth = '100%';
+		else $mapwidth = '99%';
 	} 
 	
     return $mapwidth;

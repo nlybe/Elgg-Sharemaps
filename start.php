@@ -4,30 +4,9 @@
  * @package sharemaps
  */
  
-/**
- * Elgg backward compatibility if required
- */
-if (!function_exists('elgg_get_version')) {
-	function elgg_get_version($human_readable = false) {
-		global $CONFIG;
-
-		static $version, $release;
-
-		if (isset($CONFIG->path)) {
-			if (!isset($version) || !isset($release)) {
-				if (!include($CONFIG->path . "version.php")) {
-					return false;
-				}
-			}
-			return $human_readable ? $release : $version;
-		}
-
-		return false;
-	}
-}
-
 elgg_register_event_handler('init', 'system', 'sharemaps_init');
 
+define('SHAREMAPS_PLUGIN_ID', 'sharemaps');	// general purpose string for yes
 define('SHAREMAPS_GENERAL_YES', 'yes');	// general purpose string for yes
 define('SHAREMAPS_GENERAL_NO', 'no');	// general purpose string for no
 define('SHAREMAPS_MAP_OBJECT_MARKER', 1);		// marker id
@@ -41,40 +20,47 @@ define('SHAREMAPS_MAP_OBJECT_CIRCLE', 5);		// circle id
  */
 function sharemaps_init() {
 
-    // Register subtype
-    run_function_once('sharemaps_manager_run_once_subtypes');
-    
     // register a library of helper functions
     elgg_register_library('elgg:sharemaps', elgg_get_plugins_path() . 'sharemaps/lib/sharemaps.php');
 
     // register geoPHP library
-    elgg_register_library('elgg:sharemapsgeophp', elgg_get_plugins_path() . 'sharemaps/lib/geoPHP.inc');
+    elgg_register_library('elgg:sharemaps_geophp', elgg_get_plugins_path() . 'sharemaps/lib/geoPHP.inc');
 
     // Site navigation
     $item = new ElggMenuItem('sharemaps', elgg_echo('sharemaps:menu'), 'sharemaps/all');
     elgg_register_menu_item('site', $item); 
 
-    // Extend CSS
-    elgg_extend_view('css/elgg', 'sharemaps/css');
-
     // add enclosure to rss item
     elgg_extend_view('extensions/item', 'sharemaps/enclosure');
 
     // register extra css files
-    $css_url = '//code.google.com/apis/maps/documentation/javascript/examples/default.css';
-    elgg_register_css('kmlcss', $css_url);
-    elgg_register_css('sharemaps_drawonmaps', elgg_get_site_url() . 'mod/sharemaps/assets/drawonmaps.css'); 
-    elgg_register_css('sharemaps_bootstrap', elgg_get_site_url() . 'mod/sharemaps/assets/bootstrap.min.css'); 
-
+    elgg_register_css('sharemaps_drawonmaps_css', elgg_get_simplecache_url('sharemaps/drawonmaps.css'));
+    
     // register extra js files
-    $mapkey = trim(elgg_get_plugin_setting('google_api_key', 'sharemaps'));
-    elgg_register_js('sharemaps_gkml', '//maps.googleapis.com/maps/api/js?sensor=false&amp;key=' . $mapkey);
-    elgg_register_js('sharemaps_kml',  elgg_get_site_url() . 'mod/sharemaps/assets/kml.js');
-    elgg_register_js('sharemaps_ajaxgoogleapis', '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'); 
-    elgg_register_js('sharemaps_gmaps', elgg_get_site_url() . 'mod/sharemaps/assets/gmaps.js'); 
-    elgg_register_js('sharemaps_prettify', elgg_get_site_url() . 'mod/sharemaps/assets/prettify.js'); 
-    elgg_register_js('sharemaps_drawonmaps', elgg_get_site_url() . 'mod/sharemaps/assets/drawonmaps.js'); 
-    elgg_register_js('sharemaps_drawonmaps_elgg', elgg_get_site_url() . 'mod/sharemaps/assets/drawonmaps_elgg.js'); 
+    $mapkey = trim(elgg_get_plugin_setting('google_api_key', SHAREMAPS_PLUGIN_ID));
+    elgg_define_js('sharemaps_googleapis_js', array(
+	'src' => "//maps.googleapis.com/maps/api/js?key={$mapkey}",
+        'exports' => 'sharemaps_googleapis_js',
+    ));
+    /* Probably OBS
+    elgg_define_js('sharemaps_ajaxgoogleapis_js', array(
+		'src' => "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js",
+		'exports' => 'sharemaps_ajaxgoogleapis_js',
+	));
+    * */
+
+    elgg_define_js('sharemaps_gmaps_js', array(
+        'exports' => 'sharemaps_gmaps_js',
+    ));
+
+    //elgg_define_js('sharemaps_prettify', array(
+    //    'deps' => array('jquery', 'sharemaps_prettify_js'),
+    //    'exports' => 'sharemaps_prettify',
+    //));
+    //elgg_define_js('sharemaps_drawonmaps_elgg', array(
+    //    'deps' => array('jquery', 'sharemaps_drawonmaps_elgg_js'),
+    //    'exports' => 'sharemaps_drawonmaps_elgg',
+    //));
 
     // extend group main page
     elgg_extend_view('groups/tool_latest', 'sharemaps/group_module');
@@ -90,13 +76,10 @@ function sharemaps_init() {
     elgg_register_widget_type('sharemaps', elgg_echo("sharemaps"), elgg_echo("sharemaps:widget:description"), array('profile','groups','dashboard'));
 
     // Register URL handlers for maps
+    elgg_register_plugin_hook_handler('entity:url', 'object', 'sharemaps_set_url');
 
-    
-	// Register a URL handler for agora
-	elgg_register_plugin_hook_handler('entity:url', 'object', 'sharemaps_set_url');
-	
-	// Register granular notification for this object type
-	elgg_register_notification_event('object', 'sharemaps', array('create'));
+    // Register granular notification for this object type
+    elgg_register_notification_event('object', 'sharemaps', array('create'));
 
     // Listen to notification events and supply a more useful message
     elgg_register_plugin_hook_handler('notify:entity:message', 'object', 'sharemaps_notify_message');
@@ -108,8 +91,8 @@ function sharemaps_init() {
     // add a map link to owner blocks
     elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'sharemaps_owner_block_menu');
     
-	// register plugin hook for overriding walled garden sites when viewing a map
-	elgg_register_plugin_hook_handler("public_pages", "walled_garden", "sharemaps_walled_garden_hook");    
+    // register plugin hook for overriding walled garden sites when viewing a map
+    elgg_register_plugin_hook_handler("public_pages", "walled_garden", "sharemaps_walled_garden_hook");    
 
     // Register actions
     $action_path = elgg_get_plugins_path() . 'sharemaps/actions/sharemaps';
@@ -119,6 +102,7 @@ function sharemaps_init() {
     elgg_register_action("sharemaps/embed", "$action_path/addembed.php");
     elgg_register_action("sharemaps/drawmap", "$action_path/drawmap.php");
     elgg_register_action("sharemaps/drawmap/delete", "$action_path/dm_delete.php");
+    elgg_register_action("sharemaps/drawmap/load_objects", "$action_path/dm_load_objects.php");
 
     // embed support
     $item = ElggMenuItem::factory(array(

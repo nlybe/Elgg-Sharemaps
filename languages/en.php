@@ -24,6 +24,7 @@ $english = array(
     'sharemaps:replace' => 'Replace map content (leave blank to not change file)',
     'sharemaps:list:title' => "%s's %s %s",
     'sharemaps:title:friends' => "Friends'",
+    'sharemaps:invalid:entity' => "Invalid map entity",
 
     'sharemaps:add' => 'Upload a map',
 
@@ -98,8 +99,7 @@ View and comment on the new map:
     'sharemaps:settings:map_height:how' => 'Numeric value (e.g. 500)',
     'sharemaps:settings:no' => "No",
     'sharemaps:settings:yes' => "Yes",   
-    'sharemaps:settings:allow_gmaps_links' => 'Allow to insert Google Maps Links',
-     
+    'sharemaps:settings:allow_gmaps_links' => 'Allow to insert Google Maps Links',     
     
     // embed maps
     'sharemaps:embed' => 'Insert a google map link',

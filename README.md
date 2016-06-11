@@ -25,7 +25,7 @@ Sharemaps Plugin is useful for travel communities as well as activity communitie
 
 
 == 2. Installation ==
-Requires: Elgg 1.8.x or 1.9.x
+Requires: 2.1.x
 
 1. Upload sharemaps in "/mod/" elgg folder
 2. Activate the plugin in the administration panel
