@@ -38,7 +38,7 @@ $map_objects = elgg_extract('map_objects', $vars, null);
 <div>
 	<label><?php echo elgg_echo('tags'); ?></label>
 	<?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
-</div>
+</div> 
 
 	<div class="container">
 		<h4 class="doc_title"><?php echo elgg_echo('sharemaps:drawmap:draw'); ?></h4>
@@ -47,7 +47,7 @@ $map_objects = elgg_extract('map_objects', $vars, null);
 			<div class="searchbox" >
 				<div class="form-group input">
 					<input type="text" class="form-control" id="address" name="address" placeholder="Enter city or address">
-					<input type="button" class="btn btn-primary" value="Search" onClick="searchLocation();"/>
+					<input type="button" class="btn btn-primary" id="geocoding_btn" value="Search" />
 				</div>					
 			</div>
 			<div id="basic_options">
