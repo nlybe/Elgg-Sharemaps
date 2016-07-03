@@ -4,13 +4,14 @@
  */
 
 $page_owner_guid = get_input('page_owner', null);
+$page_owner_guid = elgg_extract('page_owner', $vars, '');
 
 if ($page_owner_guid !== null) {
-	$page_owner_guid = sanitise_int($page_owner_guid);
+    $page_owner_guid = sanitise_int($page_owner_guid);
 }
 
 if ($page_owner_guid) {
-	elgg_set_page_owner_guid($page_owner_guid);
+    elgg_set_page_owner_guid($page_owner_guid);
 }
 $owner = elgg_get_page_owner_entity();
 
@@ -26,72 +27,72 @@ $friends = (bool)get_input('friends', false);
 // breadcrumbs
 elgg_push_breadcrumb(elgg_echo('file'), "sharemaps/all");
 if ($owner) {
-	if (elgg_instanceof($owner, 'user')) {
-		elgg_push_breadcrumb($owner->name, "sharemaps/owner/$owner->username");
-	} else {
-		elgg_push_breadcrumb($owner->name, "sharemaps/group/$owner->guid/all");
-	}
+    if (elgg_instanceof($owner, 'user')) {
+        elgg_push_breadcrumb($owner->name, "sharemaps/owner/$owner->username");
+    } else {
+        elgg_push_breadcrumb($owner->name, "sharemaps/group/$owner->guid/all");
+    }
 }
 if ($friends && $owner) {
-	elgg_push_breadcrumb(elgg_echo('friends'), "sharemaps/friends/$owner->username");
+    elgg_push_breadcrumb(elgg_echo('friends'), "sharemaps/friends/$owner->username");
 }
 if ($file_type) {
 	elgg_push_breadcrumb(elgg_echo("sharemaps:type:$file_type"));
 } else {
-	elgg_push_breadcrumb(elgg_echo('all'));
+    elgg_push_breadcrumb(elgg_echo('all'));
 }
 
 // title
 if (!$owner) {
-	// world files
-	$title = elgg_echo('all') . ' ' . elgg_echo("sharemaps:type:$file_type");
+    // world files
+    $title = elgg_echo('all') . ' ' . elgg_echo("sharemaps:type:$file_type");
 } else {
-	$friend_string = $friends ? elgg_echo('sharemaps:title:friends') : '';
-	$type_string = elgg_echo("sharemaps:type:$file_type");
-	$title = elgg_echo('sharemaps:list:title', array($owner->name, $friend_string, $type_string));
+    $friend_string = $friends ? elgg_echo('sharemaps:title:friends') : '';
+    $type_string = elgg_echo("sharemaps:type:$file_type");
+    $title = elgg_echo('sharemaps:list:title', array($owner->name, $friend_string, $type_string));
 }
 
 
 $sidebar = sharemaps_get_type_cloud($page_owner_guid, $friends);
 
 if ($friends) {
-	$friend_entities = $owner->getFriends(array('limit' => false));
+    $friend_entities = $owner->getFriends(array('limit' => false));
 
-	if ($friend_entities) {
-		$friend_guids = array();
-		foreach ($friend_entities as $friend) {
-			$friend_guids[] = $friend->getGUID();
-		}
-	}
-	$page_owner_guid = $friend_guids;
+    if ($friend_entities) {
+        $friend_guids = array();
+        foreach ($friend_entities as $friend) {
+            $friend_guids[] = $friend->getGUID();
+        }
+    }
+    $page_owner_guid = $friend_guids;
 }
 
 $limit = 10;
 if ($listtype == "gallery") {
-	$limit = 12;
+    $limit = 12;
 }
 
 $params = array(
-	'types' => 'object',
-	'subtypes' => 'sharemaps',
-	'container_guid' => $page_owner_guid,
-	'limit' => $limit,
-	'full_view' => false,
+    'types' => 'object',
+    'subtypes' => 'sharemaps',
+    'container_guid' => $page_owner_guid,
+    'limit' => $limit,
+    'full_view' => false,
 );
 
 if ($file_type) {
-	$params['metadata_name'] = $md_type;
-	$params['metadata_value'] = $file_type;
-	$content = elgg_list_entities_from_metadata($params);
+    $params['metadata_name'] = $md_type;
+    $params['metadata_value'] = $file_type;
+    $content = elgg_list_entities_from_metadata($params);
 } else {
-	$content = elgg_list_entities($params);
+    $content = elgg_list_entities($params);
 }
 
 $body = elgg_view_layout('content', array(
-	'filter' => '',
-	'content' => $content,
-	'title' => $title,
-	'sidebar' => $sidebar,
+    'filter' => '',
+    'content' => $content,
+    'title' => $title,
+    'sidebar' => $sidebar,
 ));
 
 echo elgg_view_page($title, $body);

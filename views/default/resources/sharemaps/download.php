@@ -6,7 +6,7 @@
  */
 
 // Get the guid
-$file_guid = get_input("guid");
+$file_guid = elgg_extract('guid', $vars, '');
 
 // Read file
 $sharemaps = get_entity($file_guid);

@@ -9,7 +9,8 @@ elgg_load_library('elgg:sharemaps');
 
 gatekeeper();
 
-$file_guid = (int) get_input('guid');
+$file_guid = elgg_extract('guid', $vars, '');
+
 $sharemaps = new SharemapsPluginMap($file_guid);
 if (!$sharemaps) {
 	forward();

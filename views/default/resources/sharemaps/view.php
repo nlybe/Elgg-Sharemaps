@@ -7,7 +7,7 @@
 elgg_load_library('elgg:sharemaps');
 
 // Get the guid
-$entity_guid = (int) get_input('guid');
+$entity_guid = elgg_extract('guid', $vars, '');
 
 // Get the file
 $sharemaps = get_entity($entity_guid);

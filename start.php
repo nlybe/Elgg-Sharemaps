@@ -172,59 +172,57 @@ function sharemaps_page_handler($page) {
         $page[0] = 'all';
     }
 
-    $file_dir = elgg_get_plugins_path() . 'sharemaps/pages/sharemaps';
-
-    $page_type = $page[0];
-    switch ($page_type) {
+    switch ($page[0]) {
         case 'owner':
-            include "$file_dir/owner.php";
+            echo elgg_view_resource('sharemaps/owner');
             break;
         case 'friends':
-            include "$file_dir/friends.php";
+            echo elgg_view_resource('sharemaps/friends');
             break;
         case 'view':
-            set_input('guid', $page[1]);
-            include "$file_dir/view.php";
+            $resource_vars['guid'] = elgg_extract(1, $page);
+            echo elgg_view_resource('sharemaps/view', $resource_vars);
             break;
         case 'add':
-            include "$file_dir/upload.php";
+            echo elgg_view_resource('sharemaps/upload');
             break;
         case 'edit':
-            set_input('guid', $page[1]);
-            include "$file_dir/edit.php";
+            $resource_vars['guid'] = elgg_extract(1, $page);
+            echo elgg_view_resource('sharemaps/edit', $resource_vars);
             break;
         case 'search':
-            include "$file_dir/search.php";
+            $resource_vars['page_owner'] = elgg_extract(1, $page);
+            echo elgg_view_resource('sharemaps/search', $resource_vars);
             break;
         case 'group':
-            include "$file_dir/owner.php";
+            echo elgg_view_resource('sharemaps/owner');
             break;
         case 'all':
-            include "$file_dir/world.php";
+            echo elgg_view_resource('sharemaps/world');
             break;
         case 'download':
-            set_input('guid', $page[1]);
-            include "$file_dir/download.php";
+            $resource_vars['guid'] = elgg_extract(1, $page);
+            echo elgg_view_resource('sharemaps/download', $resource_vars);
             break;
         case 'addembed':
             elgg_set_page_owner_guid($page[1]);
-            include "$file_dir/addembed.php";
+            echo elgg_view_resource('sharemaps/addembed');
             break;
         case 'drawmap':
             switch ($page[1]) {
                 case 'edit':
-                    set_input('guid', $page[2]);
-                    include "$file_dir/dm_edit.php";
+                    $resource_vars['guid'] = elgg_extract(2, $page);
+                    echo elgg_view_resource('sharemaps/dm_edit', $resource_vars);
                     break;
                 case 'add':
                     elgg_set_page_owner_guid($page[2]);
-                    include "$file_dir/drawmap.php";
+                    echo elgg_view_resource('sharemaps/drawmap');
                     break;
             }
             break;
         case 'filepath':
-            set_input('guid', $page[1]);
-            include "$file_dir/filepath.php";
+            $resource_vars['guid'] = elgg_extract(1, $page);
+            echo elgg_view_resource('sharemaps/filepath', $resource_vars);
             break;
         default:
             return false;

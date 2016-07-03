@@ -8,7 +8,7 @@ elgg_load_library('elgg:sharemaps');
 
 gatekeeper();
 
-$entity_guid = (int) get_input('guid');
+$entity_guid = elgg_extract('guid', $vars, '');
 $entity_unit = new Drawmap($entity_guid);
 if (!$entity_unit) {
 	forward();

@@ -6,7 +6,7 @@
  */
 
 // Get the guid
-$file_guid = get_input("guid");
+$file_guid = elgg_extract('guid', $vars, '');
 
 // set ignore access for loading non public objexts
 $ia = elgg_get_ignore_access();

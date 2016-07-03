@@ -8,7 +8,7 @@ elgg_load_library('elgg:sharemaps');
 
 $owner = elgg_get_page_owner_entity();
 if (!$owner) {
-	forward('sharemaps/all');
+    forward('sharemaps/all');
 }
 
 elgg_push_breadcrumb(elgg_echo('sharemaps'), "sharemaps/all");
