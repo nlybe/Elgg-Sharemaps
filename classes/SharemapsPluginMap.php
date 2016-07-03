@@ -5,31 +5,32 @@
  */
  
 class SharemapsPluginMap extends ElggFile {
-	protected function  initializeAttributes() {
-		parent::initializeAttributes();
+    protected function  initializeAttributes() {
+        parent::initializeAttributes();
 
-		$this->attributes['subtype'] = "sharemaps";
-	}
+        $this->attributes['subtype'] = "sharemaps";
+    }
 
-	public function __construct($guid = null) {
-		if ($guid && !is_object($guid)) {
-			$guid = get_entity_as_row($guid);
-		}		
-		
-		parent::__construct($guid);
-	}
+    public function __construct($guid = null) {
+        if ($guid && !is_object($guid)) {
+            $guid = get_entity_as_row($guid);
+        }		
 
-	public function delete() {
-		$thumbnails = array($this->thumbnail, $this->smallthumb, $this->largethumb);
-		foreach ($thumbnails as $thumbnail) {
-			if ($thumbnail) {
-				$delfile = new ElggFile();
-				$delfile->owner_guid = $this->owner_guid;
-				$delfile->setFilename($thumbnail);
-				$delfile->delete();
-			}
-		}
+        parent::__construct($guid);
+    }
 
-		return parent::delete();
-	}
+    // may be this is OBS in v.2.10 or later
+    public function delete() {
+        $thumbnails = array($this->thumbnail, $this->smallthumb, $this->largethumb);
+        foreach ($thumbnails as $thumbnail) {
+            if ($thumbnail) {
+                $delfile = new ElggFile();
+                $delfile->owner_guid = $this->owner_guid;
+                $delfile->setFilename($thumbnail);
+                $delfile->delete();
+            }
+        }
+
+        return parent::delete();
+    }
 }
