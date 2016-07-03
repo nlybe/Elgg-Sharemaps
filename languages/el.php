@@ -89,11 +89,11 @@ $greek = array(
     // settings
     'sharemaps:settings:google_maps' => 'Google Maps settings',
     'sharemaps:settings:google_api_key' => 'Enter your Google API key',
-    'sharemaps:settings:google_api_key:clickhere' => 'Go to <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/tutorial#api_key">https://developers.google.com/maps/documentation/javascript/tutorial#api_key</a> to get your "Google API key". <br />(<strong>Note:</strong> the API key is NOT required. Only if you want stats on your api usage, or if you have a paid API account the key is needed)',
+    'sharemaps:settings:google_api_key:help' => 'Go to <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/tutorial#api_key">https://developers.google.com/maps/documentation/javascript/tutorial#api_key</a> to get your "Google API key". <br />(<strong>Note:</strong> the API key is NOT required. Only if you want stats on your api usage, or if you have a paid API account the key is needed)',
     'sharemaps:settings:map_width' => 'Width of map',
-    'sharemaps:settings:map_width:how' => 'Numeric value (e.g. 500) or % (e.g. 100%)',
+    'sharemaps:settings:map_width:help' => 'Numeric value (e.g. 500) or % (e.g. 100%)',
     'sharemaps:settings:map_height' => 'Height of map',
-    'sharemaps:settings:map_height:how' => 'Numeric value (e.g. 500)',
+    'sharemaps:settings:map_height:help' => 'Numeric value (e.g. 500)',
     
     // embed maps
     'sharemaps:embed' => 'Εισάγετε σύνδεσμο από το Google Maps',

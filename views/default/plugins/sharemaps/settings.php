@@ -1,6 +1,10 @@
-<?php 
+<?php
+/**
+ * Elgg ShareMaps plugin
+ * @package sharemaps
+ */
 	
-$plugin = $vars["entity"];
+$plugin = elgg_get_plugin_from_id('sharemaps');
 
 $potential_yes_no = array(
     SHAREMAPS_GENERAL_YES => elgg_echo('sharemaps:settings:yes'),
@@ -8,27 +12,66 @@ $potential_yes_no = array(
 );
 
 // Google API
-$google = elgg_view('input/text', array('name' => 'params[google_api_key]', 'value' => $plugin->google_api_key));
-$google .= "<div class='elgg-subtext'>" . elgg_echo('sharemaps:settings:google_api_key:clickhere') . "</div>";
-echo elgg_view_module("inline", elgg_echo('sharemaps:settings:google_api_key'), $google);
+echo elgg_format_element('div', [], elgg_view_input('text', array(
+    'name' => 'params[google_api_key]',
+    'value' => $plugin->google_api_key,
+    'label' => elgg_echo('sharemaps:settings:google_api_key'),
+    'help' => elgg_echo('sharemaps:settings:google_api_key:help'),
+)));
 
 // Map width
-$map_width = elgg_view('input/text', array('name' => 'params[map_width]', 'value' => $plugin->map_width));
-$map_width .= "<div class='elgg-subtext'>" . elgg_echo('sharemaps:settings:map_width:how') . "</div>";
-echo elgg_view_module("inline", elgg_echo('sharemaps:settings:map_width'), $map_width);	
+echo elgg_format_element('div', [], elgg_view_input('text', array(
+    'name' => 'params[map_width]',
+    'value' => $plugin->map_width,
+    'label' => elgg_echo('sharemaps:settings:map_width'),
+    'help' => elgg_echo('sharemaps:settings:map_width:help'),
+    'style' => 'width: 200px;',
+)));
 
 // Map height
-$map_height = elgg_view('input/text', array('name' => 'params[map_height]', 'value' => $plugin->map_height));
-$map_height .= "<div class='elgg-subtext'>" . elgg_echo('sharemaps:settings:map_height:how') . "</div>";
-echo elgg_view_module("inline", elgg_echo('sharemaps:settings:map_height'), $map_height);	
+echo elgg_format_element('div', [], elgg_view_input('text', array(
+    'name' => 'params[map_height]',
+    'value' => $plugin->map_height,
+    'label' => elgg_echo('sharemaps:settings:map_height'),
+    'help' => elgg_echo('sharemaps:settings:map_height:help'),
+    'style' => 'width: 200px;',
+)));
+
+// allow or not the upload of maps
+$map_upload = $plugin->map_upload;
+if(empty($map_upload)){
+    $map_upload = SHAREMAPS_GENERAL_YES;
+}  
+echo elgg_format_element('div', [], elgg_view_input('dropdown', array(
+    'name' => 'params[map_upload]',
+    'value' => $map_upload,
+    'options_values' => $potential_yes_no,
+    'label' => elgg_echo('sharemaps:settings:map_upload'),
+    'help' => elgg_echo('sharemaps:settings:map_upload:help'),
+)));
 
 // allow or not to insert google maps links 
-$allow_gmaps_links = $plugin->allow_gmaps_links;
-if(empty($allow_gmaps_links)){
-	$allow_gmaps_links = SHAREMAPS_GENERAL_YES;
-}    
-$allow_gmaps_links_output = elgg_view('input/dropdown', array('name' => 'params[allow_gmaps_links]', 'value' => $allow_gmaps_links, 'options_values' => $potential_yes_no));
-echo elgg_view_module("inline", elgg_echo('sharemaps:settings:allow_gmaps_links'), $allow_gmaps_links_output);
+$map_creation = $plugin->map_creation;
+if(empty($map_creation)){
+    $map_creation = SHAREMAPS_GENERAL_YES;
+}  
+echo elgg_format_element('div', [], elgg_view_input('dropdown', array(
+    'name' => 'params[map_creation]',
+    'value' => $map_creation,
+    'options_values' => $potential_yes_no,
+    'label' => elgg_echo('sharemaps:settings:map_creation'),
+    'help' => elgg_echo('sharemaps:settings:map_creation:help'),
+)));
 
-        
-	
+// allow or not to insert google maps links 
+$gmaps_links = $plugin->gmaps_links;
+if(empty($gmaps_links)){
+    $gmaps_links = SHAREMAPS_GENERAL_NO;
+}  
+echo elgg_format_element('div', [], elgg_view_input('dropdown', array(
+    'name' => 'params[gmaps_links]',
+    'value' => $gmaps_links,
+    'options_values' => $potential_yes_no,
+    'label' => elgg_echo('sharemaps:settings:gmaps_links'),
+    'help' => elgg_echo('sharemaps:settings:gmaps_links:help'),
+)));

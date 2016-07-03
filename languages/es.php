@@ -89,11 +89,11 @@ Ver y comentar el nuevo mapa:
     // settings
     'sharemaps:settings:google_maps' => 'Ajustes de Google Maps',
     'sharemaps:settings:google_api_key' => 'Escribe aquí tu Google API key',
-    'sharemaps:settings:google_api_key:pulsa aquí' => 'ir a <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/tutorial#api_key">https://developers.google.com/maps/documentation/javascript/tutorial#api_key</a> para conseguir tu "Google API key". <br />(<strong>Note:</strong> la API key NO ES NECESARIA. Sólo si quieres estadísticas sobre su uso de la API, o si usted tiene una cuenta de API key de pago, entonces la clave si se necesita)',
+    'sharemaps:settings:google_api_key:help' => 'ir a <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/tutorial#api_key">https://developers.google.com/maps/documentation/javascript/tutorial#api_key</a> para conseguir tu "Google API key". <br />(<strong>Note:</strong> la API key NO ES NECESARIA. Sólo si quieres estadísticas sobre su uso de la API, o si usted tiene una cuenta de API key de pago, entonces la clave si se necesita)',
     'sharemaps:settings:map_width' => 'Ancho del mapa',
-    'sharemaps:settings:map_width:how' => 'Valor numérico (ej. 500) o % (ej. 100%)',
+    'sharemaps:settings:map_width:help' => 'Valor numérico (ej. 500) o % (ej. 100%)',
     'sharemaps:settings:map_height' => 'Alto del mapa',
-    'sharemaps:settings:map_height:how' => 'Valor numérico (ej. 500)',
+    'sharemaps:settings:map_height:help' => 'Valor numérico (ej. 500)',
     
     // embed maps
     'sharemaps:embed' => 'Insertar link de google maps',

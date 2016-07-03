@@ -6,6 +6,10 @@
 
 elgg_load_library('elgg:sharemaps');
 
+if (!sharemaps_is_type_active('map_creation')) { 
+    register_error(elgg_echo('sharemaps:add:noaccessforpost'));  
+    forward(REFERER);	
+}
 
 $userid = elgg_get_logged_in_user_guid();
 $owner = elgg_get_page_owner_entity();

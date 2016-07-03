@@ -2,8 +2,10 @@ CHANGE LOG
 
 2.10
 ---------------------
-- Upgraded to be compatible for Elgg 2.10
-- Some code improvements
+- Upgraded to be compatible for Elgg 2.1.x
+- Added option in settings to select which type of maps to activate
+- Several code improvements
+- Code cleanup
 
 1.12.9
 ---------------------

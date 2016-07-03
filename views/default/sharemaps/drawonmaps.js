@@ -431,9 +431,14 @@ define(function (require) {
         $('#drawwhat_clearall').on("click", function () {
             var r = confirm("You are going to remove all shapes from map.\nAre you sure ?");
             if (r == true) {
-                removeShapes(true);
+                removeShapes(true); 
             }
         });
+        
+        // Remove marker button
+        //$('.marker_btn_rmv').on("click", function () {
+        //    console.log('lalalalmmm');
+        //});
         
         // add input boxes and options for every marker addition
         GMaps.on('marker_added', map, function (marker) {
@@ -442,7 +447,7 @@ define(function (require) {
             //$('#allmarks').append('<div id="marker_' + map.markers.indexOf(marker) + '_div"><input name="marker_title[]" type="text" id="marker_' + map.markers.indexOf(marker) + '" value="' + marker.getTitle() + '"><input name="marker_coords[]" id="marker_coords_' + map.markers.indexOf(marker) + '" type="text" value="(' + marker.getPosition().lat() + ',' + marker.getPosition().lng() + ')">&nbsp;&nbsp;<button type="button" class="btn btn-info btn-xs pan-to-marker" id="marker_' + map.markers.indexOf(marker) + '_cnr" data-marker-lat="' + marker.getPosition().lat() + '" data-marker-lng="' + marker.getPosition().lng() + '">Show marker</button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-xs" id="marker_' + map.markers.indexOf(marker) + '_rmv" href="#" onClick="deleteMarker(' + map.markers.indexOf(marker) + ');">Remove</button></div>');
             
              // APPLY_TO_DRAWONMAPS
-            $('#allmarks').append('<div id="marker_' + map.markers.indexOf(marker) + '_div"><input name="marker_title[]" type="text" id="marker_' + map.markers.indexOf(marker) + '" value="' + marker.getTitle() + '"><input name="marker_coords[]" id="marker_coords_' + map.markers.indexOf(marker) + '" type="text" value="(' + marker.getPosition().lat() + ',' + marker.getPosition().lng() + ')">&nbsp;&nbsp;<button type="button" class="btn btn-info btn-xs pan-to-marker" id="marker_' + map.markers.indexOf(marker) + '_cnr" data-marker-lat="' + marker.getPosition().lat() + '" data-marker-lng="' + marker.getPosition().lng() + '">Show marker</button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-xs" id="marker_' + map.markers.indexOf(marker) + '_rmv" href="#" >Remove</button></div>');
+            $('#allmarks').append('<div id="marker_' + map.markers.indexOf(marker) + '_div"><input name="marker_title[]" type="text" id="marker_' + map.markers.indexOf(marker) + '" value="' + marker.getTitle() + '"><input name="marker_coords[]" id="marker_coords_' + map.markers.indexOf(marker) + '" type="text" value="(' + marker.getPosition().lat() + ',' + marker.getPosition().lng() + ')">&nbsp;&nbsp;<button type="button" class="btn btn-info btn-xs pan-to-marker" id="marker_' + map.markers.indexOf(marker) + '_cnr" data-marker-lat="' + marker.getPosition().lat() + '" data-marker-lng="' + marker.getPosition().lng() + '">Show marker</button>&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-xs marker_btn_rmv" id="marker_' + map.markers.indexOf(marker) + '_rmv" href="#" >Remove</button></div>');
             
             // delete a marker and its input boxes - APPLY_TO_DRAWONMAPS
             $('#marker_' + map.markers.indexOf(marker) + '_rmv').on("click", function () {

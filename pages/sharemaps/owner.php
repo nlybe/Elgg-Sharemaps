@@ -17,14 +17,13 @@ if (!$owner) {
 elgg_push_breadcrumb(elgg_echo('sharemaps'), "sharemaps/all");
 elgg_push_breadcrumb($owner->name);
 
-// insert google map button
-if (sharemaps_allow_gmaps_link()) { 
-	elgg_register_title_button('sharemaps','addembed');
+// register post buttons, depending on settings
+$sm_map_types = elgg_get_config('sm_map_types');
+foreach ($sm_map_types as $name => $type_info) {
+    if (sharemaps_is_type_active($name)) {
+        elgg_register_title_button('sharemaps', $type_info['button']);
+    }
 }
-// draw map button
-elgg_register_title_button('sharemaps','drawmap/add');
-// upload button
-elgg_register_title_button();
 
 $params = array();
 
