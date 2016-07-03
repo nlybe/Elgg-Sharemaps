@@ -162,17 +162,6 @@ function sharemaps_walled_garden_hook($hook, $type, $return_value, $params) {
 
 /**
  *  Dispatches sharemaps pages.
- *  URLs take the form of
- *  All maps:        sharemaps/all
- *  User's maps:    sharemaps/owner/<username>
- *  Friends' maps:  sharemaps/friends/<username>
- *  View maps:       sharemaps/view/<guid>/<title>
- *  New maps:        sharemaps/add/<guid>
- *  Edit maps:       sharemaps/edit/<guid>
- *  Group maps:     sharemaps/group/<guid>/all
- *  Download:        sharemaps/download/<guid>
- *
- * Title is ignored
  *
  * @param array $page
  * @return bool
