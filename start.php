@@ -190,10 +190,6 @@ function sharemaps_page_handler($page) {
             $resource_vars['guid'] = elgg_extract(1, $page);
             echo elgg_view_resource('sharemaps/edit', $resource_vars);
             break;
-        case 'search':
-            $resource_vars['page_owner'] = elgg_extract(1, $page);
-            echo elgg_view_resource('sharemaps/search', $resource_vars);
-            break;
         case 'group':
             echo elgg_view_resource('sharemaps/owner');
             break;
@@ -279,51 +275,6 @@ function sharemaps_notify_message($hook, $entity_type, $returnvalue, $params) {
     }
 
     return $return;
-}
-
-/**
- * Returns a list of map types
- *
- * @param int $container_guid The GUID of the container of the maps
- * @param bool $friends Whether we're looking at the container or the container's friends
- * @return string The typecloud
- */
-function sharemaps_get_type_cloud($container_guid = "", $friends = false) {
-
-    $container_guids = $container_guid;
-
-    if ($friends) {
-        // tags interface does not support pulling tags on friends' content so
-
-        $owner = get_user($container_guid);
-        $friend_entities = $owner->getFriends(array('limit' => false));
-
-        if ($friend_entities) {
-            $friend_guids = array();
-            foreach ($friend_entities as $friend) {
-                $friend_guids[] = $friend->getGUID();
-            }
-        }
-        $container_guids = $friend_guids;
-    }
-
-    elgg_register_tag_metadata_name('simpletype');
-    $options = array(
-        'type' => 'object',
-        'subtype' => 'sharemaps',
-        'container_guids' => $container_guids,
-        'threshold' => 0,
-        'limit' => 10,
-        'tag_names' => array('simpletype')
-    );
-    $types = elgg_get_tags($options);
-
-    $params = array(
-        'friends' => $friends,
-        'types' => $types,
-    );
-
-    return elgg_view('sharemaps/typecloud', $params);
 }
 
 /**

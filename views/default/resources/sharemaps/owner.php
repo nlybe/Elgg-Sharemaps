@@ -53,7 +53,6 @@ if (!$content) {
 	$content = elgg_echo("sharemaps:none");
 }
 
-$sidebar = sharemaps_get_type_cloud(elgg_get_page_owner_guid());
 $sidebar = elgg_view('sharemaps/sidebar');
 
 $params['content'] = $content;

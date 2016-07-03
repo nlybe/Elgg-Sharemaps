@@ -30,7 +30,6 @@ if (!$content) {
     $content = elgg_echo('sharemaps:none');
 }
 
-$sidebar = sharemaps_get_type_cloud();
 $sidebar = elgg_view('sharemaps/sidebar');
 
 $body = elgg_view_layout('content', array(

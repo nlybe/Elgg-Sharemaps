@@ -39,7 +39,7 @@ if (!$content) {
 	$content = elgg_echo("sharemaps:none");
 }
 
-$sidebar = sharemaps_get_type_cloud($owner->guid, true);
+$sidebar = '';
 
 $body = elgg_view_layout('content', array(
 	'filter_context' => 'friends',
