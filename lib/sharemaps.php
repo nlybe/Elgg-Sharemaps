@@ -228,3 +228,16 @@ function sharemaps_get_map_height() {
 
     return $mapheight;
 }
+
+/**
+ * Returns an overall map type from the mimetype
+ *
+ * @param string $mimetype The MIME type
+ * @return string The overall type
+ */
+function sharemaps_get_simple_type($mimetype) {
+    if ($mimetype)
+        return $mimetype;
+    
+    return "general";
+}

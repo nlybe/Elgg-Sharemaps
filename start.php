@@ -110,6 +110,7 @@ function sharemaps_init() {
     elgg_register_action("sharemaps/drawmap/delete", "$action_path/dm_delete.php");
     elgg_register_action("sharemaps/drawmap/load_objects", "$action_path/dm_load_objects.php");
 
+    /* OBS ????
     // embed support
     $item = ElggMenuItem::factory(array(
         'name' => 'sharemaps',
@@ -133,6 +134,8 @@ function sharemaps_init() {
         ),
     ));
     elgg_register_menu_item('embed', $item);
+     * 
+     */
 }
 
 /**
@@ -262,8 +265,14 @@ function sharemaps_notify_message($hook, $entity_type, $returnvalue, $params) {
 
 /**
  * Add a menu item to the user ownerblock
+ * 
+ * @param type $hook
+ * @param type $type
+ * @param type $return
+ * @param type $params
+ * @return \ElggMenuItem
  */
-function sharemaps_owner_block_menu($hook, $type, $return, $params) {
+ function sharemaps_owner_block_menu($hook, $type, $return, $params) {
     if (elgg_instanceof($params['entity'], 'user')) {
         $url = "sharemaps/owner/{$params['entity']->username}";
         $item = new ElggMenuItem('sharemaps', elgg_echo('sharemaps'), $url);
@@ -277,22 +286,6 @@ function sharemaps_owner_block_menu($hook, $type, $return, $params) {
     }
 
     return $return;
-}
-
-/**
- * Returns an overall map type from the mimetype
- *
- * @param string $mimetype The MIME type
- * @return string The overall type
- */
-function sharemaps_get_simple_type($mimetype) {
-    return "general";
-}
-
-// deprecated and will be removed
-function get_general_sharemaps_type($mimetype) {
-    elgg_deprecated_notice('Use sharemaps_get_simple_type() instead of get_general_sharemaps_type()', 1.8);
-    return sharemaps_get_simple_type($mimetype);
 }
 
 /**
@@ -340,23 +333,6 @@ function sharemaps_get_type_cloud($container_guid = "", $friends = false) {
     return elgg_view('sharemaps/typecloud', $params);
 }
 
-function get_sharemaptype_cloud($owner_guid = "", $friends = false) {
-    elgg_deprecated_notice('Use sharemaps_get_type_cloud instead of get_sharemapstype_cloud', 1.8);
-    return sharemaps_get_type_cloud($owner_guid, $friends);
-}
-
-/**
- * Populates the ->getUrl() method for maps objects
- *
- * @param ElggEntity $entity Sharemaps entity
- * @return string Map URL
- */
-function sharemaps_url_override($entity) {
-    $title = $entity->title;
-    $title = elgg_get_friendly_title($title);
-    return "sharemaps/view/" . $entity->getGUID() . "/" . $title;
-}
-
 /**
  * Format and return the URL for sharemaps objects, since 1.9.
  *
@@ -364,7 +340,7 @@ function sharemaps_url_override($entity) {
  * @param string $type
  * @param string $url
  * @param array  $params
- * @return string URL of agora.
+ * @return string URL of map objects.
  */
 function sharemaps_set_url($hook, $type, $url, $params) {
     $entity = $params['entity'];

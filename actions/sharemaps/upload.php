@@ -4,6 +4,7 @@
  * @package sharemaps
  */
  
+elgg_load_library('elgg:sharemaps'); 
 elgg_load_library('elgg:sharemaps_geophp'); 
 
 // Get variables
