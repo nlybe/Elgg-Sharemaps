@@ -74,7 +74,6 @@ function sharemaps_init() {
     elgg_register_page_handler('sharemaps', 'sharemaps_page_handler');
 
     // Add a new map widget
-    //elgg_register_widget_type('sharemaps', elgg_echo("sharemaps"), elgg_echo("sharemaps:widget:description"));
     elgg_register_widget_type('sharemaps', elgg_echo("sharemaps"), elgg_echo("sharemaps:widget:description"), array('profile', 'groups', 'dashboard'));
 
     // Register URL handlers for maps
