@@ -14,6 +14,7 @@ define('SHAREMAPS_MAP_OBJECT_POLYLINE', 2);  // polyline id
 define('SHAREMAPS_MAP_OBJECT_POLYGON', 3);  // polygon id
 define('SHAREMAPS_MAP_OBJECT_RECTANGLE', 4); // rectangle id
 define('SHAREMAPS_MAP_OBJECT_CIRCLE', 5);  // circle id
+define('SHAREMAPS_DEFAULT_LOCATION_COORDS', '35.516426,24.017444');  // default location coords
 
 /**
  * Sharemaps plugin initialization functions.
@@ -93,6 +94,9 @@ function sharemaps_init() {
     // register plugin hook for overriding walled garden sites when viewing a map
     elgg_register_plugin_hook_handler("public_pages", "walled_garden", "sharemaps_walled_garden_hook");
 
+    // register plugin settings view
+    elgg_register_simplecache_view('sharemaps/settings.js');
+    
     // set type of maps available
     elgg_set_config('sm_map_types', array(
         'map_upload' => array('button' => 'add'),

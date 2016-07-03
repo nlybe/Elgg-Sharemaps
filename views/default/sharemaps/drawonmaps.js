@@ -17,9 +17,9 @@ define(function (require) {
     var map_rectangles = [];
     var map_circles = [];
     var map_overlays = [];
-    var map_default_lat = 43.738416;
-    var map_default_lng = 7.424158;
-
+    var map_settings = require("sharemaps/settings");
+    var coords = map_settings['sm_default_coords'].split(',')
+    
     // Update center
     $(document).on('click', '.pan-to-marker', function (e) {
         e.preventDefault();
@@ -54,8 +54,8 @@ define(function (require) {
         map = new GMaps({
             div: '#map',
             zoom: 14,
-            lat: map_default_lat,
-            lng: map_default_lng
+            lat: coords[0],
+            lng: coords[1]
         });
 
         // initialize status of buttons

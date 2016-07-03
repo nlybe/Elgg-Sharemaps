@@ -19,6 +19,14 @@ echo elgg_format_element('div', [], elgg_view_input('text', array(
     'help' => elgg_echo('sharemaps:settings:google_api_key:help'),
 )));
 
+// default map location coords
+echo elgg_format_element('div', [], elgg_view_input('text', array(
+    'name' => 'params[default_coords]',
+    'value' => $plugin->default_coords,
+    'label' => elgg_echo('sharemaps:settings:default_coords'),
+    'help' => elgg_echo('sharemaps:settings:default_coords:help'),
+)));
+
 // Map width
 echo elgg_format_element('div', [], elgg_view_input('text', array(
     'name' => 'params[map_width]',

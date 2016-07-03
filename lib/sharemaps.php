@@ -187,7 +187,7 @@ function sharemaps_is_type_active($map_type) {
     if (!$map_type)
         return false;
     
-    $get_param = trim(elgg_get_plugin_setting($map_type, 'sharemaps'));
+    $get_param = trim(elgg_get_plugin_setting($map_type, SHAREMAPS_PLUGIN_ID));
 
     if ($get_param === SHAREMAPS_GENERAL_YES)
         return true;
@@ -201,7 +201,7 @@ function sharemaps_is_type_active($map_type) {
  * @return string
  */
 function sharemaps_get_map_width() {
-    $mapwidth = trim(elgg_get_plugin_setting('map_width', 'sharemaps'));
+    $mapwidth = trim(elgg_get_plugin_setting('map_width', SHAREMAPS_PLUGIN_ID));
     if (strripos($mapwidth, '%') === false) {
         if (is_numeric($mapwidth))
             $mapwidth = $mapwidth . 'px';
@@ -218,7 +218,7 @@ function sharemaps_get_map_width() {
  * @return string
  */
 function sharemaps_get_map_height() {
-    $mapheight = trim(elgg_get_plugin_setting('map_height', 'sharemaps'));
+    $mapheight = trim(elgg_get_plugin_setting('map_height', SHAREMAPS_PLUGIN_ID));
     if (strripos($mapheight, '%') === false) {
         if (is_numeric($mapheight))
             $mapheight = $mapheight . 'px';
@@ -240,4 +240,17 @@ function sharemaps_get_simple_type($mimetype) {
         return $mimetype;
     
     return "general";
+}
+
+/**
+ * Get map default location coords
+ * 
+ * @return string
+ */
+function sharemaps_get_map_default_location_coords() {
+    $coords = trim(elgg_get_plugin_setting('default_coords', SHAREMAPS_PLUGIN_ID));
+    if (!$coords)
+        $coords = SHAREMAPS_DEFAULT_LOCATION_COORDS;
+
+    return $coords;
 }
