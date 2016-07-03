@@ -92,6 +92,8 @@ View and comment on the new map:
     // settings
     'sharemaps:settings:no' => "No",
     'sharemaps:settings:yes' => "Yes",   
+    'sharemaps:settings:before' => "Before",
+    'sharemaps:settings:after' => "After",   
     'sharemaps:settings:google_maps' => 'Google Maps settings',
     'sharemaps:settings:google_api_key' => 'Google API key',
     'sharemaps:settings:google_api_key:help' => 'Go to <a target="_blank" href="https://developers.google.com/maps/documentation/javascript/tutorial#api_key">https://developers.google.com/maps/documentation/javascript/tutorial#api_key</a> to get your "Google API key". <br /><strong>Note:</strong> the API key is NOT required. Only if you want stats on your api usage, or if you have a paid API account the key is needed',
@@ -107,6 +109,8 @@ View and comment on the new map:
     'sharemaps:settings:map_creation:help' => 'Select yes if allow the creation of maps online',    
     'sharemaps:settings:gmaps_links' => 'Enable Google Maps Links', 
     'sharemaps:settings:gmaps_links:help' => 'Select yes if allow to insert Google Maps Links in iframe',    
+    'sharemaps:settings:map_description' => 'Display map before or after description', 
+    'sharemaps:settings:map_description:help' => 'Select where to display the map regarding the description of post. Default value is "before".',
     
     // embed maps
     'sharemaps:embed' => 'Insert a google map link',

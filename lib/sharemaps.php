@@ -254,3 +254,16 @@ function sharemaps_get_map_default_location_coords() {
 
     return $coords;
 }
+
+/**
+ * Get the location of map regarding description from settings
+ * 
+ * @return string
+ */
+function sharemaps_display_map_before_description() {
+    $map_loc = trim(elgg_get_plugin_setting('map_description', SHAREMAPS_PLUGIN_ID));
+    if ($map_loc === SHAREMAPS_GENERAL_AFTER)
+        return false;
+    
+    return true;
+}

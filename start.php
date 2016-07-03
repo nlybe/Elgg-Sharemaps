@@ -9,6 +9,8 @@ elgg_register_event_handler('init', 'system', 'sharemaps_init');
 define('SHAREMAPS_PLUGIN_ID', 'sharemaps'); // general purpose string for yes
 define('SHAREMAPS_GENERAL_YES', 'yes'); // general purpose string for yes
 define('SHAREMAPS_GENERAL_NO', 'no'); // general purpose string for no
+define('SHAREMAPS_GENERAL_BEFORE', 'before'); // general purpose string for before
+define('SHAREMAPS_GENERAL_AFTER', 'after'); // general purpose string for after
 define('SHAREMAPS_MAP_OBJECT_MARKER', 1);  // marker id
 define('SHAREMAPS_MAP_OBJECT_POLYLINE', 2);  // polyline id
 define('SHAREMAPS_MAP_OBJECT_POLYGON', 3);  // polygon id

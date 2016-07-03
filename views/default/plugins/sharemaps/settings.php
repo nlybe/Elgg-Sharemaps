@@ -11,6 +11,11 @@ $potential_yes_no = array(
     SHAREMAPS_GENERAL_NO => elgg_echo('sharemaps:settings:no'),
 );
 
+$potential_before_after = array(
+    SHAREMAPS_GENERAL_BEFORE => elgg_echo('sharemaps:settings:before'),
+    SHAREMAPS_GENERAL_AFTER => elgg_echo('sharemaps:settings:after'),
+);
+
 // Google API
 echo elgg_format_element('div', [], elgg_view_input('text', array(
     'name' => 'params[google_api_key]',
@@ -82,4 +87,17 @@ echo elgg_format_element('div', [], elgg_view_input('dropdown', array(
     'options_values' => $potential_yes_no,
     'label' => elgg_echo('sharemaps:settings:gmaps_links'),
     'help' => elgg_echo('sharemaps:settings:gmaps_links:help'),
+)));
+
+// select where to load map regarding description
+$map_description = $plugin->map_description;
+if(empty($map_description)){
+    $map_description = SHAREMAPS_GENERAL_BEFORE;
+}  
+echo elgg_format_element('div', [], elgg_view_input('dropdown', array(
+    'name' => 'params[map_description]',
+    'value' => $map_description,
+    'options_values' => $potential_before_after,
+    'label' => elgg_echo('sharemaps:settings:map_description'),
+    'help' => elgg_echo('sharemaps:settings:map_description:help'),
 )));
