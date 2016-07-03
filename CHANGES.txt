@@ -4,6 +4,7 @@ CHANGE LOG
 ---------------------
 - Upgraded to be compatible for Elgg 2.1.x
 - Added option in settings to select which type of maps to activate
+- Fixed comment link on map view
 - Several code improvements
 - Code cleanup
 

@@ -31,21 +31,21 @@ $date = elgg_view_friendly_time($sharemaps->time_created);
 $comments_count = $sharemaps->countComments();
 //only display if there are commments
 if ($comments_count != 0) {
-	$text = elgg_echo("comments") . " ($comments_count)";
-	$comments_link = elgg_view('output/url', array(
-		'href' => $sharemaps->getURL() . '#file-comments',
-		'text' => $text,
-		'is_trusted' => true,
-	));
+    $text = elgg_echo("comments") . " ($comments_count)";
+    $comments_link = elgg_view('output/url', array(
+            'href' => $sharemaps->getURL() . '#comments',
+            'text' => $text,
+            'is_trusted' => true,
+    ));
 } else {
-	$comments_link = '';
+    $comments_link = '';
 }
 
 $metadata = elgg_view_menu('entity', array(
-	'entity' => $vars['entity'],
-	'handler' => 'sharemaps',
-	'sort_by' => 'priority',
-	'class' => 'elgg-menu-hz',
+    'entity' => $vars['entity'],
+    'handler' => 'sharemaps',
+    'sort_by' => 'priority',
+    'class' => 'elgg-menu-hz',
 ));
 
 $subtitle = "$author_text $date $comments_link";
