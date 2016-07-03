@@ -1,8 +1,7 @@
 <?php
 /**
- * Elgg map widget view
- *
- * @package ElggShareMaps
+ * Elgg ShareMaps plugin
+ * @package sharemaps
  */
 
 elgg_load_library('elgg:sharemaps');

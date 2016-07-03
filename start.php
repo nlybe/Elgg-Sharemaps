@@ -37,6 +37,7 @@ function sharemaps_init() {
     elgg_extend_view('extensions/item', 'sharemaps/enclosure');
 
     // register extra css files
+    elgg_register_css('sharemaps_css', elgg_get_simplecache_url('sharemaps/sharemaps.css'));
     elgg_register_css('sharemaps_drawonmaps_css', elgg_get_simplecache_url('sharemaps/drawonmaps.css'));
 
     // register extra js files

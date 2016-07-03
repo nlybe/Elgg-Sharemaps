@@ -1,9 +1,10 @@
 <?php
 /**
- * Elgg map upload/save form
- *
- * @package ElggShareMaps
+ * Elgg ShareMaps plugin
+ * @package sharemaps
  */
+
+elgg_load_css('sharemaps_css');
 
 // once elgg_view stops throwing all sorts of junk into $vars, we can use 
 $gmaplink = elgg_extract('gmaplink', $vars, '');
@@ -27,31 +28,31 @@ if ($guid) {
 
 ?>
 <div>
-	<label><?php echo elgg_echo('sharemaps:gmaplink'); ?></label><br />
-	<?php echo elgg_view('input/text', array('name' => 'gmaplink', 'value' => $gmaplink)); ?>
-        <div class="elgg-subtext">
-            <a href="#" class="tooltip"><?php echo elgg_echo("sharemaps:gmaplinkhowto");?>
-                <span><img src="<?php echo elgg_get_site_url().'mod/sharemaps/graphics/gmaplinksample.png';?>" style="float:right;" alt="Google map link sample"></span>
-            </a>
-        </div>
+    <label><?php echo elgg_echo('sharemaps:gmaplink'); ?></label><br />
+    <?php echo elgg_view('input/text', array('name' => 'gmaplink', 'value' => $gmaplink)); ?>
+    <div class="elgg-subtext">
+        <a href="#" class="tooltip"><?php echo elgg_echo("sharemaps:gmaplinkhowto");?>
+            <span><img src="<?php echo elgg_get_site_url().'mod/sharemaps/graphics/gmaplinksample.png';?>" style="float:right;" alt="Google map link sample"></span>
+        </a>
+    </div>
 </div>
 
 <div>
-	<label><?php echo elgg_echo('title'); ?></label><br />
-	<?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
+    <label><?php echo elgg_echo('title'); ?></label><br />
+    <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
 </div>
 <div>
-	<label><?php echo elgg_echo('description'); ?></label>
-	<?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
+    <label><?php echo elgg_echo('description'); ?></label>
+    <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
 </div>
 <div>
-	<label><?php echo elgg_echo('tags'); ?></label>
-	<?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
+    <label><?php echo elgg_echo('tags'); ?></label>
+    <?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
 </div>
 
 <div>
-	<label><?php echo elgg_echo('access'); ?></label><br />
-	<?php echo elgg_view('input/access', array('name' => 'access_id', 'value' => $access_id)); ?>
+    <label><?php echo elgg_echo('access'); ?></label><br />
+    <?php echo elgg_view('input/access', array('name' => 'access_id', 'value' => $access_id)); ?>
 </div>
 <div class="elgg-foot">
 <?php
@@ -59,7 +60,7 @@ if ($guid) {
 echo elgg_view('input/hidden', array('name' => 'container_guid', 'value' => $container_guid));
 
 if ($guid) {
-	echo elgg_view('input/hidden', array('name' => 'file_guid', 'value' => $guid));
+    echo elgg_view('input/hidden', array('name' => 'file_guid', 'value' => $guid));
 }
 
 echo elgg_view('input/submit', array('value' => $submit_label));

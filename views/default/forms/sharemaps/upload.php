@@ -1,8 +1,7 @@
 <?php
 /**
- * Elgg map upload/save form
- *
- * @package ElggShareMaps
+ * Elgg ShareMaps plugin
+ * @package sharemaps
  */
 
 // once elgg_view stops throwing all sorts of junk into $vars, we can use 
