@@ -68,6 +68,10 @@ function sharemaps_init() {
     // extend group main page
     elgg_extend_view('groups/tool_latest', 'sharemaps/group_module');
 
+    // allow map objects to be liked
+    elgg_register_plugin_hook_handler('likes:is_likable', 'object:sharemaps', 'Elgg\Values::getTrue');
+    elgg_register_plugin_hook_handler('likes:is_likable', 'object:drawmap', 'Elgg\Values::getTrue');
+    
     // add the group maps tool option
     add_group_tool_option('sharemaps', elgg_echo('groups:enablemaps'), true);
 
