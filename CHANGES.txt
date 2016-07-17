@@ -1,5 +1,9 @@
 CHANGE LOG
 
+2.11
+---------------------
+- fix: composer file
+
 2.10
 ---------------------
 - Upgraded to be compatible for Elgg 2.1.x
