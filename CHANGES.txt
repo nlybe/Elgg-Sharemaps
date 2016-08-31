@@ -1,5 +1,9 @@
 CHANGE LOG
 
+2.11.1
+---------------------
+- fix: removed unused js file from views.php
+
 2.11
 ---------------------
 - fix: composer file
