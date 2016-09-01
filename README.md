@@ -12,6 +12,7 @@ Demo: http://nikos.lyberakis.gr/elgg/sharemaps/all
 
 
 == Contents ==
+
 1. Features
 2. Installation
 
