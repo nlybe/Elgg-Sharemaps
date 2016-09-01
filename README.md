@@ -1,4 +1,4 @@
-******* Sharemaps Plugin *******
+##Sharemaps Plugin for Elgg##
 
 Elgg plugin for creating/uploading and sharing maps such as routes, placemarks etc, with google maps integration.
 
@@ -8,13 +8,15 @@ Users can also create maps online by adding markers and drawing polygons, rectan
 
 Sharemaps Plugin is useful for travel communities as well as activity communities such as motorcyclists, bikers, runners, hikers, climbers etc.
 
+Demo: http://nikos.lyberakis.gr/elgg/sharemaps/all
+
 
 == Contents ==
 1. Features
 2. Installation
 
 
-== 1. Features ==
+###1. Features###
 - Google maps integration
 - Create maps online and draw markers, polygons, rectangles, polylines and circles
 - Upload gpx files (directly from GPS Trackers)
@@ -24,7 +26,7 @@ Sharemaps Plugin is useful for travel communities as well as activity communitie
 - English, Greek and Spanish language files
 
 
-== 2. Installation ==
+###2. Installation###
 Requires: Elgg 2.1.x
 
 1. Upload sharemaps in "/mod/" elgg folder
