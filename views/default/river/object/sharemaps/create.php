@@ -1,13 +1,16 @@
 <?php
 /**
- * Map river view.
+ * Elgg Sharemaps plugin
+ * @package sharemaps
  */
 
-$object = $vars['item']->getObjectEntity();
-$excerpt = strip_tags($object->description);
-$excerpt = elgg_get_excerpt($excerpt);
+$item = elgg_extract('item', $vars);
+if (!$item instanceof ElggRiverItem) {
+	return;
+}
 
-echo elgg_view('river/elements/layout', array(
-	'item' => $vars['item'],
-	'message' => $excerpt,
-));
+$object = $item->getObjectEntity();
+$vars['message'] = elgg_get_excerpt($object->description);
+$vars['attachments'] = elgg_view('output/url', ['href' => $object->address]);
+
+echo elgg_view('river/elements/layout', $vars);

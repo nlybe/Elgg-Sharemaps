@@ -1,8 +1,26 @@
 {
     "name": "nlybe/elgg-sharemaps",
+    "description": "Create or upload maps in Elgg communities",
     "type": "elgg-plugin",
+    "keywords": [
+        "elgg", 
+        "plugin",
+        "maps",
+        "leafletjs"
+    ],
+    "homepage": "https://github.com/nlybe/Elgg-Sharemaps",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Nikos Lyberakis",
+            "email": "nikos@lyberakis.gr",
+            "role": "Web Developer"
+        }
+    ],
     "require": {
         "composer/installers": ">=1.0.8"
     },
-    "license": "GPL-2.0"
+    "extra": {
+        "installer-name": "sharemaps"
+    }
 }

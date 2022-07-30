@@ -1,43 +1,39 @@
 <?php
 /**
- * Elgg ShareMaps plugin
- * @package sharemaps
+ * Elgg Sharemaps plugin
+ * @package sharemaps 
  */
 
-elgg_load_library('elgg:sharemaps');
-$num = $vars['entity']->num_display;
-$owner = get_entity($vars['entity']->owner_guid);
+$widget = elgg_extract('entity', $vars);
 
-$options = array(
+$num_display = (int) $widget->num_display ?: 4;
+
+$content = elgg_list_entities([
 	'type' => 'object',
-	'subtypes' => array('sharemaps', 'drawmap'),
-	'container_guid' => $vars['entity']->owner_guid,
-	'limit' => $num,
-	'full_view' => FALSE,
-	'pagination' => FALSE,
-);
-$content = elgg_list_entities($options);
+	'subtype' => ElggMap::SUBTYPE,
+	'container_guid' => $widget->owner_guid,
+	'limit' => $num_display,
+	'pagination' => false,
+	'distinct' => false,
+]);
 
-if (elgg_instanceof($owner, 'group')) {
-    $url = elgg_normalize_url('sharemaps/group/'.$owner->getGUID().'/all');
-    $link_text = elgg_echo("mm_lectures:widget:viewall:group");
-}
-else {
-    $url = "sharemaps/owner/" . elgg_get_page_owner_entity()->username;
-    $link_text = elgg_echo("mm_lectures:widget:viewall");
+if (empty($content)) {
+	echo elgg_echo('sharemaps:none');
+	return;
 }
 
-if ($content) {
-    echo $content;    
-    
-    $more_link = elgg_view('output/url', array(
-        'href' => $url,
-        'text' => elgg_echo('sharemaps:more'),
-        'is_trusted' => true,
-    ));
-    echo elgg_format_element('span', ['class' => 'elgg-widget-more'], $more_link);
-    
-} 
-else {
-    echo elgg_echo('sharemaps:none');
+echo $content;
+
+$owner = $widget->getOwnerEntity();
+if ($owner instanceof ElggGroup) {
+	$url = elgg_generate_url('collection:object:sharemaps:group', ['guid' => $owner->guid]);
+} else {
+	$url = elgg_generate_url('collection:object:sharemaps:owner', ['username' => $owner->username]);
 }
+
+$more_link = elgg_view('output/url', [
+	'href' => $url,
+	'text' => elgg_echo('more'),
+	'is_trusted' => true,
+]);
+echo elgg_format_element('div', ['class' => 'elgg-widget-more'], $more_link);

@@ -1,14 +1,15 @@
 <?php
 /**
- * Elgg ShareMaps plugin
+ * Elgg Sharemaps plugin
  * @package sharemaps
  */
 
-elgg_load_library('elgg:sharemaps');
-//$map_settings = elgg_get_plugin_from_id(SHAREMAPS_PLUGIN_ID)->getAllSettings();
+use Sharemaps\SharemapsOptions;
 
 $settings = [
-    'sm_default_coords' => sharemaps_get_map_default_location_coords(),
+    'google_maps_api' => SharemapsOptions::isGoogleAPIEnabled(),
+    'google_maps_api_key' => SharemapsOptions::getGoogleAPIKey(),
+    'leafletjs_toolbox_enabled' => SharemapsOptions::isLeafletJSToolboxEnabled(),
 ];
 
 ?>
