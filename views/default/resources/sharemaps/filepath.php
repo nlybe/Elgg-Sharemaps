@@ -6,12 +6,11 @@
 
 $guid = elgg_extract('guid', $vars, '');
 
-// set ignore access for loading non public objexts
-$ia = elgg_get_ignore_access();
-elgg_set_ignore_access(true);
-				
 // get the file
-$entity = new ElggMap($guid);
+$entity = elgg_call(ELGG_IGNORE_ACCESS, function() use ($guid) {
+	return get_entity($guid);
+});
+
 if (!$entity) {
 	register_error(elgg_echo("sharemaps:download:failed"));
 	forward();
@@ -33,8 +32,5 @@ header("Content-Disposition: attachment; filename=\"$filename\"");
 ob_clean();
 flush();
 readfile($entity->getFilenameOnFilestore());
-
-// restore ignore access
-elgg_set_ignore_access($ia);
 
 exit;

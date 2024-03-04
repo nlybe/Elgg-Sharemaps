@@ -9,6 +9,11 @@ use Sharemaps\Elgg\Bootstrap;
 require_once(dirname(__FILE__) . "/lib/hooks.php");
 
 return [
+    'plugin' => [
+        'name' => 'ShareMaps',
+		'version' => '4.13',
+		'dependencies' => [],
+	],
 	'bootstrap' => Bootstrap::class,
 	'entities' => [
 		[
@@ -80,8 +85,7 @@ return [
 	],
     'views' => [
         'default' => [
-			'maps/edit/' => __DIR__ . '/graphics',
-			// 'sharemaps/graphics/' => __DIR__ . '/graphics',
+			'sharemaps/icons/' => __DIR__ . '/graphics',
 			'sm_leaflet_kml.js' => __DIR__ . '/vendors/leaflet_plugins/leaflet.kml.js',
 			// 'sm_leaflet_kml.js' => __DIR__ . '/vendors/leaflet_plugins/leaflet-omnivore.min.js',			
 			'sm_leaflet_google_mutant.js' => __DIR__ . '/vendors/leaflet_plugins/Leaflet.GoogleMutant.js',

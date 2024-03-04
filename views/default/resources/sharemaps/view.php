@@ -20,6 +20,16 @@ $content = elgg_view_entity($entity, [
 	'show_responses' => true,
 ]);
 
+if ($entity->canDownload()) {
+	elgg_register_menu_item('title', [
+		'name' => 'download',
+		'text' => elgg_echo('download'),
+		'href' => $entity->getDownloadURL(),
+		'icon' => 'download',
+		'link_class' => 'elgg-button elgg-button-action',
+	]);
+}
+
 $body = elgg_view_layout('default', [
 	'content' => $content,
 	'title' => $title,

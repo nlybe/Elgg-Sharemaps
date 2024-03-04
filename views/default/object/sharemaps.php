@@ -25,10 +25,10 @@ if (elgg_extract('full_view', $vars)) {
 	$mapbox = elgg_view('output/mapdraw', ['entity' => $entity]);
 	
 	if (SharemapsOptions::getParams('map_location') == SharemapsOptions::MAP_LOCATION_AFTER) {
-		$body .= $mapbox.$description;
+		$body .= $description.$mapbox;
 	}
 	else {
-		$body .= $description.$mapbox;
+		$body .= $mapbox.$description;
 	}	
 	
 	$params = [

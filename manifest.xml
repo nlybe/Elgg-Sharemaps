@@ -3,18 +3,18 @@
     <name>ShareMaps</name>
     <id>sharemaps</id>
     <author>Nikos Lyberakis</author>
-    <version>3.12</version>
+    <version>4.13</version>
     <category>maps</category>
     <category>content</category>
     <category>widgets</category>
-    <description>Create or upload map files (gpx, kml) in Elgg communities.</description>
+    <description>Create or upload map files (gpx, kml and kmz) in Elgg communities.</description>
     <repository>https://github.com/nlybe/Elgg-Sharemaps</repository>
     <website>https://github.com/nlybe/</website>
     <copyright>(C) Nikos Lyberakis 2012 - 2022</copyright>
     <license>GNU General Public License version 2</license>
     <requires>
         <type>elgg_release</type>
-        <version>3.3</version>
+        <version>4.0</version>
     </requires>     
     <activate_on_install>false</activate_on_install>
 </plugin_manifest>

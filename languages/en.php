@@ -12,8 +12,7 @@ return [
     'sharemaps:settings:yes' => "Yes", 
     'sharemaps:all' => "All site maps",
     'sharemaps:add' => 'Create map',
-    'sharemaps:edit' => "Edit",
-    'maps:add' => 'Create map',
+    'add:object:sharemaps' => 'Create map',
     'collection:object:sharemaps' => 'Maps',
     'collection:object:sharemaps:friends' => 'Friends\' maps',
     'collection:object:sharemaps:group' => 'Group maps',
@@ -31,15 +30,14 @@ return [
     'sharemaps:add:title:help' => "Set the title of the map",
     'sharemaps:add:description:help' => "Enter a description for the map",
     'sharemaps:add:tags:help' => "Enter some keywords which describe this map",
-    'sharemaps:add:file' => 'Load file on map',
     'sharemaps:add:file:help' => 'Load a GPX or KML file on the map. The file will be loaded automatically on the map and will replace any existing.<br />You can convert your files between GPX and KML at <a href="https://gpx2kml.com" target="_blank" title="Convert gpx file to kml">http://gpx2kml.com</a>.',
     'sharemaps:add:file:help:noentity' => 'You have to save you map first in order to be able to upload a map file. ',
     'sharemaps:add:smap' => "Map drawing",
-    'sharemaps:add:smap:help' => "Create the map elements using the toolbar on the right side. Optionally you can load a GPX or KML file on the map.",
+    'sharemaps:add:smap:help' => "Create the map elements using the toolbar on the left side. Optionally you can load a GPX or KML file on the map.",
     
     // status messages
-    'sharemaps:save:success' => "Your map was successfully saved.",
-    'sharemaps:upload:success' => "The uploaded file was successfully load on map.",
+    'sharemaps:save:success' => "Your map was successfully saved",
+    'sharemaps:upload:success' => "The uploaded file was successfully load on map",
 
     // errror messages
     'sharemaps:none' => "No maps",
@@ -48,13 +46,11 @@ return [
     'sharemaps:save:file:invalid' => 'Invalid map file type. It must be gpx or kml.',
     'sharemaps:unknown_map' => 'Cannot find specified map',
     'sharemaps:file:uploadfailed' => "Sorry; we could not save your file.",
-	'sharemaps:file:noaccess' => "You do not have permissions to change this file",
-    'sharemaps:file:cannotload' => "There was an error uploading the file",
     'sharemaps:download:failed' => "Sorry, this map is not available at this time.",
     
     // Widgets
 	'widgets:sharemaps:name' => 'Maps',
-	'widgets:sharemaps:description' => "Display your latest maps.",    
+	'widgets:sharemaps:description' => "Display your latest maps.",
 
     // settings
     'sharemaps:settings:before' => "Before",

@@ -6,9 +6,10 @@
 
 use Sharemaps\SharemapsOptions;
 
-elgg_load_css('sharemaps_leaflet_css');
-elgg_load_css('sharemaps_leaflet_draw_css');
-elgg_load_css('sm_leaflet_autocomplete_css');
+elgg_load_external_file('css', 'sharemaps_leaflet_css');
+elgg_load_external_file('css', 'sharemaps_leaflet_draw_css');
+elgg_load_external_file('css', 'sm_leaflet_autocomplete_css');
+elgg_load_external_file('css', 'sharemaps_leaflet_fullscreen_css');
 
 elgg_require_js('sharemaps/leaflet_edit'); 
 

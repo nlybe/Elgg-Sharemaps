@@ -38,12 +38,12 @@ class Bootstrap extends DefaultPluginBootstrap {
 			"crossorigin" => "",
 			'exports' => 'sm_leaflet_js',
 		));
-		elgg_register_css("sharemaps_leaflet_css", "//unpkg.com/leaflet@{$leafletjs_v}/dist/leaflet.css");
+		elgg_register_external_file('css', 'sharemaps_leaflet_css', "//unpkg.com/leaflet@{$leafletjs_v}/dist/leaflet.css");
 
 		// leaflet gpx library
 		elgg_define_js('sm_leaflet_gpx', array(
-			'src' => "//cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js", 
-			'deps' => array('sm_leaflet_js'),
+			'src' => "//cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js", 
+			'deps' => ['sm_leaflet_js'],
 			'exports' => 'sm_leaflet_gpx',
 		));
 
@@ -52,7 +52,6 @@ class Bootstrap extends DefaultPluginBootstrap {
 			'deps' => ['sm_leaflet_js'],
 			'exports' => 'sm_leaflet_kml',
 		]);
-		elgg_register_css("sharemaps_leaflet_css", "//unpkg.com/leaflet@{$leafletjs_v}/dist/leaflet.css");
 
 		if (SharemapsOptions::isGoogleAPIEnabled()) {
 			// Google API library
@@ -67,7 +66,8 @@ class Bootstrap extends DefaultPluginBootstrap {
 				'deps' => ['sm_leaflet_js', 'google_maps_api'],
 				'exports' => 'sm_leaflet_autocomplete',
 			]);
-			elgg_register_css('sm_leaflet_autocomplete_css', elgg_get_simplecache_url('sm_leaflet_autocomplete.css'));
+			elgg_register_external_file('css', 'sm_leaflet_autocomplete_css', elgg_get_simplecache_url('sm_leaflet_autocomplete.css'));
+			// elgg_require_css('sm_leaflet_autocomplete_css', elgg_get_simplecache_url('sm_leaflet_autocomplete.css'));
 
 
 			// Google layers
@@ -84,7 +84,16 @@ class Bootstrap extends DefaultPluginBootstrap {
 			'src' => "//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/{$leaflet_draw_v}/leaflet.draw-src.js",
 			'exports' => 'sm_leaflet_draw',
 		]);
-		elgg_register_css("sharemaps_leaflet_draw_css", "//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/{$leaflet_draw_v}/leaflet.draw.css");
+		elgg_register_external_file('css', 'sharemaps_leaflet_draw_css', "//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/{$leaflet_draw_v}/leaflet.draw.css");
+		// elgg_require_css("sharemaps_leaflet_draw_css", "//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/{$leaflet_draw_v}/leaflet.draw.css");
+
+		// fullscreen control 
+		elgg_define_js('sm_leaflet_fullscreen', [
+			'deps' => ['sm_leaflet_js'],
+			'src' => "//api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js",
+			'exports' => 'sm_leaflet_fullscreen',
+		]);
+		elgg_register_external_file('css', 'sharemaps_leaflet_fullscreen_css', "//api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css");
 
 		// dropzone.js library
 		elgg_define_js('sm_dropzone', [
@@ -104,11 +113,6 @@ class Bootstrap extends DefaultPluginBootstrap {
 
 		// Groups
 		elgg()->group_tools->register('sharemaps');
-
-		// set type of maps available
-		elgg_set_config('sm_post_buttons', array(
-			'map_upload' => ['button' => 'add'],
-		));		
 
 	}
 }

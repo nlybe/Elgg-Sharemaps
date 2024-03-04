@@ -36,7 +36,7 @@ if ($uploaded_file && !$uploaded_file->isValid()) {
 if ($uploaded_file) {
     $supported_mimes = SharemapsOptions::getAllowedMapFiles();
 
-    $mime_type = ElggFile::detectMimeType($uploaded_file->getPathname(), $uploaded_file->getClientMimeType());
+    $mime_type = _elgg_services()->mimetype->getMimeType($uploaded_file->getPathname());
     if (!in_array($mime_type, $supported_mimes)) {
         $result['error'] = true;
         $result['status_msg'] = elgg_echo('sharemaps:save:file:invalid');

@@ -1,15 +1,14 @@
-{
-    "name": "nlybe/elgg-sharemaps",
+{   
+    "name": "nlybe/sharemaps",
     "description": "Create or upload maps in Elgg communities",
     "type": "elgg-plugin",
-    "keywords": [
-        "elgg", 
-        "plugin",
-        "maps",
-        "leafletjs"
-    ],
+    "keywords": [ "elgg", "plugin", "maps", "leafletjs" ],
     "homepage": "https://github.com/nlybe/Elgg-Sharemaps",
     "license": "GPL-2.0",
+    "support": {
+		"source": "https://github.com/nlybe/Elgg-Sharemaps",
+		"issues": "https://github.com/nlybe/Elgg-Sharemaps/issues"
+	},
     "authors": [
         {
             "name": "Nikos Lyberakis",
@@ -22,5 +21,8 @@
     },
     "extra": {
         "installer-name": "sharemaps"
-    }
+    },
+	"conflict": {
+		"elgg/elgg": "<4.0"
+	}
 }

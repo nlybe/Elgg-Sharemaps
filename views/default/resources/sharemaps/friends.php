@@ -4,31 +4,24 @@
  * @package sharemaps 
  */
 
-use Sharemaps\SharemapsOptions;
+use Elgg\Exceptions\Http\EntityNotFoundException;
 
 $username = elgg_extract('username', $vars);
 
 $user = get_user_by_username($username);
 if (!$user) {
-	throw new \Elgg\EntityNotFoundException();
+	throw new EntityNotFoundException();
 }
 
-elgg_push_breadcrumb(elgg_echo('sharemaps'));
+elgg_push_breadcrumb(elgg_echo('sharemaps'), elgg_generate_url('default:object:sharemaps'));
 elgg_push_collection_breadcrumbs('object', 'sharemaps', $user, true);
 
-// register post buttons
-SharemapsOptions::getPostButtons();
+elgg_register_title_button('sharemaps', 'add', 'object', 'sharemaps');
 
+$vars['entity'] = $user;
 $title = elgg_echo('collection:object:sharemaps:friends');
-
-$content = elgg_view('sharemaps/listing/friends', [
-	'entity' => $user,
-]);
-
-$body = elgg_view_layout('default', [
+echo elgg_view_page($title, [
 	'filter_value' => $user->guid == elgg_get_logged_in_user_guid() ? 'friends' : 'none',
-	'content' => $content,
+	'content' => elgg_view('sharemaps/listing/friends', $vars),
 	'title' => $title,
 ]);
-
-echo elgg_view_page($title, $body);
