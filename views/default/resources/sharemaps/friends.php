@@ -1,51 +1,34 @@
 <?php
 /**
- * Elgg ShareMaps plugin
- * @package sharemaps
+ * Elgg Sharemaps plugin
+ * @package sharemaps 
  */
 
-elgg_load_library('elgg:sharemaps');
+use Sharemaps\SharemapsOptions;
 
-$owner = elgg_get_page_owner_entity();
-if (!$owner) {
-    forward('sharemaps/all');
+$username = elgg_extract('username', $vars);
+
+$user = get_user_by_username($username);
+if (!$user) {
+	throw new \Elgg\EntityNotFoundException();
 }
 
-elgg_push_breadcrumb(elgg_echo('sharemaps'), "sharemaps/all");
-elgg_push_breadcrumb($owner->name, "sharemaps/owner/$owner->username");
-elgg_push_breadcrumb(elgg_echo('friends'));
+elgg_push_breadcrumb(elgg_echo('sharemaps'));
+elgg_push_collection_breadcrumbs('object', 'sharemaps', $user, true);
 
-// register post buttons, depending on settings
-$sm_map_types = elgg_get_config('sm_map_types');
-foreach ($sm_map_types as $name => $type_info) {
-    if (sharemaps_is_type_active($name)) {
-        elgg_register_title_button('sharemaps', $type_info['button']);
-    }
-}
+// register post buttons
+SharemapsOptions::getPostButtons();
 
-$title = elgg_echo("sharemaps:friends");
+$title = elgg_echo('collection:object:sharemaps:friends');
 
-$content = elgg_list_entities_from_relationship(array(
-	'type' => 'object',
-	'subtype' => array('sharemaps', 'drawmap'),
-	'full_view' => false,
-	'limit' => 10,
-	'relationship' => 'friend',
-	'relationship_guid' => $owner->guid,
-	'relationship_join_on' => 'container_guid',
-));
+$content = elgg_view('sharemaps/listing/friends', [
+	'entity' => $user,
+]);
 
-if (!$content) {
-	$content = elgg_echo("sharemaps:none");
-}
-
-$sidebar = '';
-
-$body = elgg_view_layout('content', array(
-	'filter_context' => 'friends',
+$body = elgg_view_layout('default', [
+	'filter_value' => $user->guid == elgg_get_logged_in_user_guid() ? 'friends' : 'none',
 	'content' => $content,
 	'title' => $title,
-	'sidebar' => $sidebar,
-));
+]);
 
 echo elgg_view_page($title, $body);

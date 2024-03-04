@@ -1,64 +1,35 @@
 <?php
 /**
- * Elgg ShareMaps plugin
- * @package sharemaps
+ * Elgg Sharemaps plugin
+ * @package sharemaps 
  */
 
-elgg_load_library('elgg:sharemaps');
+use Sharemaps\SharemapsOptions;
 
-// access check for closed groups
-group_gatekeeper();
+$username = elgg_extract('username', $vars);
 
-$owner = elgg_get_page_owner_entity();
-if (!$owner) {
-	forward('sharemaps/all');
+$user = get_user_by_username($username);
+if (!$user) {
+	throw new \Elgg\EntityNotFoundException();
 }
 
-elgg_push_breadcrumb(elgg_echo('sharemaps'), "sharemaps/all");
-elgg_push_breadcrumb($owner->name);
+elgg_push_breadcrumb(elgg_echo('sharemaps'));
+elgg_push_collection_breadcrumbs('object', 'sharemaps', $user);
 
-// register post buttons, depending on settings
-$sm_map_types = elgg_get_config('sm_map_types');
-foreach ($sm_map_types as $name => $type_info) {
-    if (sharemaps_is_type_active($name)) {
-        elgg_register_title_button('sharemaps', $type_info['button']);
-    }
-}
+// register post buttons
+SharemapsOptions::getPostButtons();
 
-$params = array();
+$vars['entity'] = $user;
 
-if ($owner->guid == elgg_get_logged_in_user_guid()) {
-	// user looking at own maps
-	$params['filter_context'] = 'mine';
-} else if (elgg_instanceof($owner, 'user')) {
-	// someone else's maps
-	// do not show select a tab when viewing someone else's posts
-	$params['filter_context'] = 'none';
-} else {
-	// group files
-	$params['filter'] = '';
-}
+$content = elgg_view('sharemaps/listing/owner', $vars);
 
-$title = elgg_echo("sharemaps:user", array($owner->name));
+$title = elgg_echo('collection:object:sharemaps');
 
-// List maps
-$content = elgg_list_entities(array(
-	'types' => 'object',
-	'subtypes' => array('sharemaps', 'drawmap'),
-	'container_guid' => $owner->guid,
-	'limit' => 10,
-	'full_view' => FALSE,
-));
-if (!$content) {
-	$content = elgg_echo("sharemaps:none");
-}
-
-$sidebar = elgg_view('sharemaps/sidebar');
-
-$params['content'] = $content;
-$params['title'] = $title;
-$params['sidebar'] = $sidebar;
-
-$body = elgg_view_layout('content', $params);
+$body = elgg_view_layout('default', [
+	'filter_value' => $user->guid == elgg_get_logged_in_user_guid() ? 'mine' : 'none',
+	'content' => $content,
+	'title' => $title,
+	'sidebar' => elgg_view('sharemaps/sidebar', $vars),
+]);
 
 echo elgg_view_page($title, $body);

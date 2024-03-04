@@ -1,54 +1,35 @@
 <?php
 /**
- * Edit a map
- *
- * @package ElggShareMaps
+ * Elgg Sharemaps plugin
+ * @package sharemaps
  */
 
-elgg_load_library('elgg:sharemaps');
+use Sharemaps\SharemapsOptions;
 
-gatekeeper();
+$guid = elgg_extract('guid', $vars);
+elgg_entity_gatekeeper($guid, 'object', ElggMap::SUBTYPE);
 
-$file_guid = elgg_extract('guid', $vars, '');
+$entity = get_entity($guid);
 
-$sharemaps = new SharemapsPluginMap($file_guid);
-if (!$sharemaps) {
-	forward();
-}
-if (!$sharemaps->canEdit()) {
-	forward();
+if (!$entity->canEdit()) {
+	throw new \Elgg\EntityPermissionsException(elgg_echo('sharemaps:unknown_map'));
 }
 
-$title = elgg_echo('sharemaps:edit');
+$title = elgg_echo('edit:object:map');
 
-elgg_push_breadcrumb(elgg_echo('sharemaps'), "sharemaps/all");
-elgg_push_breadcrumb($sharemaps->title, $sharemaps->getURL());
-elgg_push_breadcrumb($title);
+elgg_push_breadcrumb(elgg_echo('sharemaps'), 'maps');
+elgg_push_entity_breadcrumbs($entity, true);
 
-elgg_set_page_owner_guid($sharemaps->getContainerGUID());
+$vars = SharemapsOptions::sharemaps_prepare_form_vars($entity);
+$content = elgg_view_form('sharemaps/edit', [
+	'enctype' => 'multipart/form-data',
+	'action' => 'action/sharemaps/save',
+], $vars); 
 
-$form_vars = array('enctype' => 'multipart/form-data');
-
-$fname = $sharemaps->getFilename();
-if(empty($fname)) {
-    $gmap = new ElggObject($file_guid);
-    
-    if ($gmap)    {   
-        $body_vars = sharemaps_prepare_form_vars_gmaplink($gmap);
-        //$body_vars = sharemaps_prepare_form_vars($gmap);
-        $content = elgg_view_form('sharemaps/embed', $form_vars, $body_vars);
-        //$content = elgg_view_form('sharemaps/upload', $form_vars, $body_vars);
-    }
-}
-else {
-    $body_vars = sharemaps_prepare_form_vars($sharemaps);
-    $content = elgg_view_form('sharemaps/upload', $form_vars, $body_vars);
-}
-
-$body = elgg_view_layout('content', array(
+$body = elgg_view_layout('default', [
+	'filter_id' => 'sharemaps/edit',
 	'content' => $content,
 	'title' => $title,
-	'filter' => '',
-));
+]);
 
 echo elgg_view_page($title, $body);

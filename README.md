@@ -1,4 +1,30 @@
-##Sharemaps Plugin for Elgg##
+Elgg Maps Plugin
+================
+
+# Todo List Soon
+
+- add google layers on map view
+- add popup to map objects
+- add center map and zoom
+- on create map, first provide form with title and optionally map file load and then forward to edit map
+- add more layers
+- add loading icon while uploading files
+- update md files
+- publish on github/elgg
+
+# Todo List Later
+
+1. Select marker icon
+2. Awesome marker icons
+3. create groups of existing maps and load all (also show hide files like http://mpetazzoni.github.io/leaflet-gpx/)
+4. download map
+5. option to add multiple on the same map entity (also show hide files like http://mpetazzoni.github.io/leaflet-gpx/)
+6. read and publish data from maps
+7. Create map icon/thumbnail
+
+![Elgg 3.0](https://img.shields.io/badge/Elgg-3.0-orange.svg?style=flat-square)
+
+Create or upload map files (gpx, kml and kmz) in Elgg communities.
 
 Elgg plugin for creating/uploading and sharing maps such as routes, placemarks etc, with google maps integration.
 
@@ -10,14 +36,8 @@ Sharemaps Plugin is useful for travel communities as well as activity communitie
 
 Demo: http://nikos.lyberakis.gr/elgg/sharemaps/all
 
+# Features
 
-== Contents ==
-
-1. Features
-2. Installation
-
-
-###1. Features###
 - Google maps integration
 - Create maps online and draw markers, polygons, rectangles, polylines and circles
 - Upload gpx files (directly from GPS Trackers)
@@ -26,11 +46,7 @@ Demo: http://nikos.lyberakis.gr/elgg/sharemaps/all
 - Insert map link directly from Google Maps, without need of uploading files
 - English, Greek and Spanish language files
 
+# Installation
 
-###2. Installation###
-Requires: Elgg 2.1.x
+Requires: Elgg 3.x
 
-1. Upload sharemaps in "/mod/" elgg folder
-2. Activate the plugin in the administration panel
-3. In 'Administration/Configure/Settings/Share Maps' you can configure several map options and select which type of maps to enable
-4. Ensure that images at 'mod/sharemaps/graphics' are readable from web server

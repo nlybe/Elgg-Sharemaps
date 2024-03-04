@@ -1,57 +1,35 @@
 <?php
 /**
- * Elgg ShareMaps plugin
+ * Elgg Sharemaps plugin
  * @package sharemaps
  */
 
-elgg_load_library('elgg:sharemaps');
+$guid = elgg_extract('guid', $vars);
 
-// Get the guid
-$entity_guid = elgg_extract('guid', $vars, '');
+elgg_entity_gatekeeper($guid, 'object', ElggMap::SUBTYPE);
 
-// Get the file
-$sharemaps = get_entity($entity_guid);
-if (!$sharemaps) {
-	register_error(elgg_echo('noaccess'));
-	$_SESSION['last_forward_from'] = current_page_url();
-	forward('');
-}
+$entity = get_entity($guid);
 
-if (elgg_instanceof($sharemaps, 'object', 'drawmap')) {
-	$sharemaps = new Drawmap($entity_guid);
-}
-else {
-	$sharemaps = new SharemapsPluginMap($entity_guid);
-}
+elgg_push_breadcrumb(elgg_echo('sharemaps'), 'maps');
+elgg_push_entity_breadcrumbs($entity, true);
 
-$owner = elgg_get_page_owner_entity();
-elgg_push_breadcrumb(elgg_echo('sharemaps'), 'sharemaps/all');
+$title = $entity->getDisplayName();
 
-$crumbs_title = $owner->name;
-if (elgg_instanceof($owner, 'group')) {
-	elgg_push_breadcrumb($crumbs_title, "sharemaps/group/$owner->guid/all");
-} else {
-	elgg_push_breadcrumb($crumbs_title, "sharemaps/owner/$owner->username");
-}
-$title = $sharemaps->title;
-elgg_push_breadcrumb($title);
+$content = elgg_view_entity($entity, [
+	'full_view' => true,
+	'show_responses' => true,
+]);
 
-$content = elgg_view_entity($sharemaps, array('full_view' => true)); 
-$content .= elgg_view_comments($sharemaps);
-
-if(!empty($sharemaps->originalfilename)) {  // add download button only for files
-    elgg_register_menu_item('title', array(
-		'name' => 'download',
-		'text' => elgg_echo('sharemaps:download'),
-		'href' => "sharemaps/download/$sharemaps->guid",
-		'link_class' => 'elgg-button elgg-button-action',
-    ));
-}
-
-$body = elgg_view_layout('content', array(
+$body = elgg_view_layout('default', [
 	'content' => $content,
 	'title' => $title,
 	'filter' => '',
-));
+	'entity' => $entity,
+	'sidebar' => elgg_view('object/sharemaps/elements/sidebar', [
+		'entity' => $entity,
+	]),
+]);
 
-echo elgg_view_page($title, $body);
+echo elgg_view_page($title, $body, 'default', [
+	'entity' => $entity,
+]);
