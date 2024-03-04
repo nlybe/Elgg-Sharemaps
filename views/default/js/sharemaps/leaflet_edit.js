@@ -7,6 +7,7 @@ define(function (require) {
     require('sm_leaflet_kml');
     require('sm_leaflet_draw');
     require('sm_dropzone');
+    require('sm_leaflet_fullscreen');
 
     // get plugin settings
     var sm_settings = require("sharemaps/settings");
@@ -52,7 +53,11 @@ define(function (require) {
         
         // map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
 
+        // add full view control
+        map.addControl(new L.Control.Fullscreen());
+
         if (google_maps_api === true) {
+            // replace with https://github.com/smeijer/leaflet-geosearch
             // autocomplete
             new L.Control.GPlaceAutocomplete({
                 callback: function(place){
@@ -95,7 +100,7 @@ define(function (require) {
               Terrain: terrainMutant,
               Traffic: trafficMutant
             }, {}, {
-                collapsed: false
+                collapsed: true
             }).addTo(map);            
         }
 
@@ -165,8 +170,8 @@ define(function (require) {
         // });
             
         // load the file maps
-        file_obj = loadFileMap(map, 'undefined',);
-
+        file_obj = loadFileMap(map, 'undefined');
+        
         // add existing map object to map throught the editable FeatureGroup drawnItems
         var map_objects = $('#map_objects').val();
         var map_objects_json = isJson(map_objects);
@@ -266,7 +271,7 @@ define(function (require) {
                         elgg.register_error(json['status_msg']);
                     }
                     else {
-                        if (file_obj) {
+                        if (file_obj !== undefined) {
                             file_obj.remove();
                         }
                         file_obj = loadFileMap(map, json['map_type']);
@@ -299,38 +304,58 @@ function isJson(str) {
  */
 function loadFileMap(map, map_type)  {
     var map_url = $("#murl").data("murl");  // get the map URL
-    var file_obj;
-
+    var fobject;
+    
     // if the map_type is not given, get it from mtype element
     if (map_type == 'undefined') {
         map_type = $("#mtype").data("mtype");   // get the map file type
     }
 
     if (map_type == 'gpx') {
-        file_obj = new L.GPX(map_url, {async: true}).on('loaded', function(e) {
+        fobject = new L.GPX(map_url, {
+            async: true,
+            marker_options: {
+              startIconUrl: '/mod/sharemaps/graphics/pin-icon-start.png',
+              endIconUrl: '/mod/sharemaps/graphics/pin-icon-end.png',
+              wptIconUrls: '/mod/sharemaps/graphics/pin-icon-wpt.png',
+              shadowUrl: '/mod/sharemaps/graphics/pin-shadow.png'
+            }
+        }).on('loaded', function(e) {
             map.fitBounds(e.target.getBounds());
         }).addTo(map);
+
+        return fobject;
     }
     else if (map_type == 'kml') {
-        fetch(map_url)
-        .then(res => res.text())
-        .then(kmltext => {
-            // Create new kml overlay
-            const parser = new DOMParser();
-            const kml = parser.parseFromString(kmltext, 'text/xml');
-            const track = new L.KML(kml);
-            map.addLayer(track);
+        // fetch(map_url)
+        // .then(res => res.text())
+        // .then(kmltext => {
+        //     // Create new kml overlay
+        //     const parser = new DOMParser();
+        //     const kml = parser.parseFromString(kmltext, 'text/xml');
+        //     fobject = new L.KML(kml);
+        //     map.addLayer(fobject);
 
-            // Adjust map to show the kml
-            const bounds = track.getBounds();
-            map.fitBounds(bounds);
-        });
-        // file_obj = new L.KML(map_url, {async: true}).on('loaded', function(e) {
-        //     map.fitBounds(e.target.getBounds());
-        // }).addTo(map);
+        //     // Adjust map to show the kml
+        //     console.log("gggg 1");
+        //     map.fitBounds(fobject.getBounds());
+        //     console.log("gggg 2");
+        //     return fobject;
+        //     console.log("gggg 3");
+        // });
+
+        fobject = new L.KML(map_url, {
+            async: true
+        }).on('loaded', function (e) {
+            map.fitBounds(e.target.getBounds());
+        })
+        .addTo(map);
+        // L.control.layers({}, {'Track': track}, {collapsed: false}).addTo(map);
+
+        return fobject;
     } 
 
-    return file_obj;
+    return false;
 }
 
 // function onEachFeature(feature, layer) {

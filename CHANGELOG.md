@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.13
+
+- Upgraded to be compatible with Elgg 4.x
+- Added full view option to the map
+- Code cleanup
+
 ## 3.12 (July 2022)
 
 - Upgraded to be compatible with Elgg 3.x

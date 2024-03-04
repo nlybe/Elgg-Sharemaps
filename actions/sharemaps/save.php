@@ -47,6 +47,8 @@ if (!$entity->save()) {
 // map saved so clear sticky form
 elgg_clear_sticky_form('sharemaps');
 
+$redirect_url = $entity->getURL();
+
 //add to river only if new
 if ($new) {
 	elgg_create_river_item([
@@ -54,8 +56,10 @@ if ($new) {
 		'action_type' => 'create',
 		'object_guid' => $entity->getGUID(),
 	]);
+
+	// also change redirect_url
+	$redirect_url = elgg_generate_url('edit:object:sharemaps', ['guid' => $entity->guid]);
 }
 
-return elgg_ok_response('', elgg_echo('sharemaps:save:success'), $entity->getURL());
-// return elgg_ok_response('', elgg_echo('sharemaps:save:success'), REFERER); // used when testing
+return elgg_ok_response('', elgg_echo('sharemaps:save:success'), $redirect_url);
 

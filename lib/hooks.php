@@ -7,22 +7,20 @@
  /**
  * Add a menu item to an ownerblock
  *
- * @param string         $hook   'register'
- * @param string         $type   'menu:owner_block'
- * @param ElggMenuItem[] $return current return value
- * @param array          $params supplied params
+ * @param \Elgg\Hook $hook 'register', 'menu:owner_block'
  *
  * @return ElggMenuItem[]
  */
-function sharemaps_owner_block_menu($hook, $type, $return, $params) {
+function sharemaps_owner_block_menu(\Elgg\Hook $hook) {
 
-	$entity = elgg_extract('entity', $params);
+	$entity = $hook->getEntityParam();
+	$return = $hook->getValue();
 	
-	if ($entity instanceof ElggUser) {
+	if ($entity instanceof \ElggUser) {
 		$url = elgg_generate_url('collection:object:sharemaps:owner', ['username' => $entity->username]);
 		$item = new ElggMenuItem('sharemaps', elgg_echo('collection:object:sharemaps'), $url);
 		$return[] = $item;
-	} elseif ($entity instanceof ElggGroup) {
+	} elseif ($entity instanceof \ElggGroup) {
 		if ($entity->isToolEnabled('sharemaps')) {
 			$url = elgg_generate_url('collection:object:sharemaps:group', ['guid' => $entity->guid]);
 			$item = new ElggMenuItem('sharemaps', elgg_echo('collection:object:sharemaps:group'), $url);

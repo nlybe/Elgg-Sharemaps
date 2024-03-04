@@ -6,7 +6,9 @@
 
 use Sharemaps\SharemapsOptions;
 
-elgg_load_css('sharemaps_leaflet_css');
+elgg_load_external_file('css', 'sharemaps_leaflet_css');
+elgg_load_external_file('css', 'sharemaps_leaflet_fullscreen_css');
+// elgg_require_css("//unpkg.com/leaflet@{$leafletjs_v}/dist/leaflet.css");
 elgg_require_js('sharemaps/leaflet');
 
 $entity = $vars['entity'];    

@@ -1,61 +1,21 @@
-L.KML = L.FeatureGroup.extend({
-	options: {
-		async: true
-	},
+/*!
+	Copyright (c) 2011-2015, Pavel Shramov, Bruno Bergot - MIT licence
+*/
 
-	initialize: function (kml, options) {
-		L.Util.setOptions(this, options);
+L.KML = L.FeatureGroup.extend({
+
+	initialize: function (kml, kmlOptions) {
 		this._kml = kml;
 		this._layers = {};
+		this._kmlOptions = kmlOptions;
 
 		if (kml) {
-			this.addKML(kml, options, this.options.async);
+			this.addKML(kml, kmlOptions);
 		}
 	},
 
-	loadXML: function (url, cb, options, async) {
-		if (async === undefined) async = this.options.async;
-		if (options === undefined) options = this.options;
-
-		var req = new window.XMLHttpRequest();
-		
-		// Check for IE8 and IE9 Fix Cors for those browsers
-		if (req.withCredentials === undefined && typeof window.XDomainRequest !== 'undefined') {
-			var xdr = new window.XDomainRequest();
-			xdr.open('GET', url, async);
-			xdr.onprogress = function () { };
-			xdr.ontimeout = function () { };
-			xdr.onerror = function () { };
-			xdr.onload = function () {
-				if (xdr.responseText) {
-					var xml = new window.ActiveXObject('Microsoft.XMLDOM');
-					xml.loadXML(xdr.responseText);
-					cb(xml, options);
-				}
-			};
-			setTimeout(function () { xdr.send(); }, 0);
-		} else {
-			req.open('GET', url, async);
-			req.setRequestHeader('Accept', 'application/vnd.google-earth.kml+xml');
-			try {
-				req.overrideMimeType('text/xml'); // unsupported by IE
-			} catch (e) { }
-			req.onreadystatechange = function () {
-				if (req.readyState !== 4) return;
-				if (req.status === 200) cb(req.responseXML, options);
-			};
-			req.send(null);
-		}
-	},
-
-	addKML: function (url, options, async) {
-		var _this = this;
-		var cb = function (kml) { _this._addKML(kml); };
-		this.loadXML(url, cb, options, async);
-	},
-
-	_addKML: function (xml) {
-		var layers = L.KML.parseKML(xml);
+	addKML: function (xml, kmlOptions) {
+		var layers = L.KML.parseKML(xml, kmlOptions);
 		if (!layers || !layers.length) return;
 		for (var i = 0; i < layers.length; i++) {
 			this.fire('addlayer', {
@@ -72,8 +32,8 @@ L.KML = L.FeatureGroup.extend({
 
 L.Util.extend(L.KML, {
 
-	parseKML: function (xml, options) {
-		var style = this.parseStyles(xml, options);
+	parseKML: function (xml, kmlOptions) {
+		var style = this.parseStyles(xml, kmlOptions);
 		this.parseStyleMap(xml, style);
 		var el = xml.getElementsByTagName('Folder');
 		var layers = [], l;
@@ -107,11 +67,11 @@ L.Util.extend(L.KML, {
 		return !e || e === folder;
 	},
 
-	parseStyles: function (xml, options) {
+	parseStyles: function (xml, kmlOptions) {
 		var styles = {};
 		var sl = xml.getElementsByTagName('Style');
 		for (var i=0, len=sl.length; i<len; i++) {
-			var style = this.parseStyle(sl[i], options);
+			var style = this.parseStyle(sl[i], kmlOptions);
 			if (style) {
 				var styleName = '#' + style.id;
 				styles[styleName] = style;
@@ -120,7 +80,7 @@ L.Util.extend(L.KML, {
 		return styles;
 	},
 
-	parseStyle: function (xml, options) {
+	parseStyle: function (xml, kmlOptions) {
 		var style = {}, poptions = {}, ioptions = {}, el, id;
 
 		var attributes = {color: true, width: true, Icon: true, href: true, hotSpot: true};
@@ -173,39 +133,39 @@ L.Util.extend(L.KML, {
 				anchorType:	{x: ioptions.xunits, y: ioptions.yunits}
 			};
 
-			if (typeof options === "object" && typeof options.iconOptions === "object") {
-				L.Util.extend(iconOptions, options.iconOptions);
+			if (typeof kmlOptions === "object" && typeof kmlOptions.iconOptions === "object") {
+				L.Util.extend(iconOptions, kmlOptions.iconOptions);
 			}
 
 			style.icon = new L.KMLIcon(iconOptions);
 		}
-		
+
 		id = xml.getAttribute('id');
 		if (id && style) {
 			style.id = id;
 		}
-		
+
 		return style;
 	},
-	
+
 	parseStyleMap: function (xml, existingStyles) {
 		var sl = xml.getElementsByTagName('StyleMap');
-		
+
 		for (var i = 0; i < sl.length; i++) {
 			var e = sl[i], el;
 			var smKey, smStyleUrl;
-			
+
 			el = e.getElementsByTagName('key');
 			if (el && el[0]) { smKey = el[0].textContent; }
 			el = e.getElementsByTagName('styleUrl');
 			if (el && el[0]) { smStyleUrl = el[0].textContent; }
-			
+
 			if (smKey === 'normal')
 			{
 				existingStyles['#' + e.getAttribute('id')] = existingStyles[smStyleUrl];
 			}
 		}
-		
+
 		return;
 	},
 
@@ -230,7 +190,7 @@ L.Util.extend(L.KML, {
 			if (l) { layers.push(l); }
 		}
 		if (!layers.length) { return; }
-
+		
 		if (layers.length === 1) {
 			l = layers[0];
 		} else {
@@ -253,7 +213,7 @@ L.Util.extend(L.KML, {
 				opts[a] = style[url][a];
 			}
 		}
-		
+
 		il = place.getElementsByTagName('Style')[0];
 		if (il) {
 			var inlineStyle = this.parseStyle(place);
@@ -268,10 +228,14 @@ L.Util.extend(L.KML, {
 		for (h in multi) {
 			el = place.getElementsByTagName(multi[h]);
 			for (i = 0; i < el.length; i++) {
-				return this.parsePlacemark(el[i], xml, style, opts);
+				var layer = this.parsePlacemark(el[i], xml, style, opts);
+				if (layer === undefined)
+					continue;
+				this.addPlacePopup(place, layer);
+				return layer;
 			}
 		}
-		
+
 		var layers = [];
 
 		var parse = ['LineString', 'Polygon', 'Point', 'Track', 'gx:Track'];
@@ -292,26 +256,27 @@ L.Util.extend(L.KML, {
 			layer = new L.FeatureGroup(layers);
 		}
 
-		var name, descr = '';
-		el = place.getElementsByTagName('name');
-		if (el.length && el[0].childNodes.length) {
-			name = el[0].childNodes[0].nodeValue;
-		}
-		el = place.getElementsByTagName('description');
-		for (i = 0; i < el.length; i++) {
-			for (j = 0; j < el[i].childNodes.length; j++) {
-				descr = descr + el[i].childNodes[j].nodeValue;
-			}
-		}
-
-		if (name) {
-			layer.on('add', function () {
-				layer.bindPopup('<h2>' + name + '</h2>' + descr);
-			});
-		}
-
+		this.addPlacePopup(place, layer);
 		return layer;
 	},
+
+  addPlacePopup: function(place, layer) {
+    var el, i, j, name, descr = '';
+    el = place.getElementsByTagName('name');
+    if (el.length && el[0].childNodes.length) {
+      name = el[0].childNodes[0].nodeValue;
+    }
+    el = place.getElementsByTagName('description');
+    for (i = 0; i < el.length; i++) {
+      for (j = 0; j < el[i].childNodes.length; j++) {
+        descr = descr + el[i].childNodes[j].nodeValue;
+      }
+    }
+
+    if (name) {
+      layer.bindPopup('<h2>' + name + '</h2>' + descr, { className: 'kml-popup'});
+    }
+  },
 
 	parseCoords: function (xml) {
 		var el = xml.getElementsByTagName('coordinates');
@@ -508,8 +473,8 @@ L.RotatedImageOverlay = L.ImageOverlay.extend({
             var rad = this.options.angle * (Math.PI / 180),
                 costheta = Math.cos(rad),
                 sintheta = Math.sin(rad);
-            this._image.style.filter += ' progid:DXImageTransform.Microsoft.Matrix(sizingMethod=\'auto expand\', M11=' + 
-                costheta + ', M12=' + (-sintheta) + ', M21=' + sintheta + ', M22=' + costheta + ')';                
+            this._image.style.filter += ' progid:DXImageTransform.Microsoft.Matrix(sizingMethod=\'auto expand\', M11=' +
+                costheta + ', M12=' + (-sintheta) + ', M21=' + sintheta + ', M22=' + costheta + ')';
         }
 	},
 	getBounds: function () {
