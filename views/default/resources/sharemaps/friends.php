@@ -16,7 +16,7 @@ if (!$user) {
 elgg_push_breadcrumb(elgg_echo('sharemaps'), elgg_generate_url('default:object:sharemaps'));
 elgg_push_collection_breadcrumbs('object', 'sharemaps', $user, true);
 
-elgg_register_title_button('sharemaps', 'add', 'object', 'sharemaps');
+elgg_register_title_button('add', 'object', 'sharemaps');
 
 $vars['entity'] = $user;
 $title = elgg_echo('collection:object:sharemaps:friends');

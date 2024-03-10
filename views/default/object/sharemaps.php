@@ -45,8 +45,8 @@ if (elgg_extract('full_view', $vars)) {
 }
 
 // brief view
-$excerpt = elgg_get_excerpt($entity->description);
-if ($excerpt) {
+if ($entity->description) {
+	$excerpt = elgg_get_excerpt($entity->description);
 	$excerpt = " - $excerpt";
 }
 

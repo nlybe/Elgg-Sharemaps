@@ -1,5 +1,9 @@
 # Change Log
 
+## 5.14
+
+- Upgraded for Elgg 5.1.x compatibility
+
 ## 4.13
 
 - Upgraded to be compatible with Elgg 4.x

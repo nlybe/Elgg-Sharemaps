@@ -3,9 +3,12 @@
  * @package sharemaps 
  */
 
- #mapid { border: 3px solid #eee; }
+#mapid { 
+    border: 3px solid #eee; 
+    z-index: 10;
+}
 
- .leaflet-control-layers-base label {
+.leaflet-control-layers-base label {
     font-weight: 600;
     font-size: .8rem;
     line-height: 1.4rem;

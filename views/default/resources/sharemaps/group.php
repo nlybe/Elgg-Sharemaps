@@ -12,7 +12,7 @@ elgg_group_tool_gatekeeper('sharemaps', $group_guid);
 
 $group = get_entity($group_guid);
 
-elgg_register_title_button('sharemaps', 'add', 'object', 'sharemaps');
+elgg_register_title_button('add', 'object', 'sharemaps');
 
 elgg_push_collection_breadcrumbs('object', 'sharemaps', $group);
 

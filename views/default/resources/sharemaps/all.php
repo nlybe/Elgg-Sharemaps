@@ -9,7 +9,7 @@ use Sharemaps\SharemapsOptions;
 // elgg_push_breadcrumb(elgg_echo('sharemaps'));
 elgg_push_collection_breadcrumbs('object', 'sharemaps');
 
-elgg_register_title_button('sharemaps', 'add', 'object', 'sharemaps');
+elgg_register_title_button('add', 'object', 'sharemaps');
 
 $title = elgg_echo('sharemaps:all');
 

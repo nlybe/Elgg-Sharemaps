@@ -27,25 +27,22 @@ class Bootstrap extends DefaultPluginBootstrap {
 	 */
 	protected function initViews() {
 				
-		// Extend CSS
-		elgg_extend_view('css/elgg', 'sharemaps/sharemaps.css');
-		
 		// register leaflet js files
 		$leafletjs_v = SharemapsOptions::getLeafletJSVersion();
-		elgg_define_js('sm_leaflet_js', array(
+		elgg_define_js('sm_leaflet_js', [
 			'src' => "//unpkg.com/leaflet@{$leafletjs_v}/dist/leaflet.js", 
 			'integrity' => "sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==", 
 			"crossorigin" => "",
 			'exports' => 'sm_leaflet_js',
-		));
+		]);
 		elgg_register_external_file('css', 'sharemaps_leaflet_css', "//unpkg.com/leaflet@{$leafletjs_v}/dist/leaflet.css");
 
 		// leaflet gpx library
-		elgg_define_js('sm_leaflet_gpx', array(
+		elgg_define_js('sm_leaflet_gpx', [
 			'src' => "//cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js", 
 			'deps' => ['sm_leaflet_js'],
 			'exports' => 'sm_leaflet_gpx',
-		));
+		]);
 
 		// leaflet kml library
 		elgg_define_js('sm_leaflet_kml', [
@@ -53,11 +50,25 @@ class Bootstrap extends DefaultPluginBootstrap {
 			'exports' => 'sm_leaflet_kml',
 		]);
 
+		// leaflet geosearch library
+		elgg_define_js('sm_leaflet_geosearch', [
+			'src' => "//unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.umd.js", 
+			'deps' => ['sm_leaflet_js'],
+			'exports' => 'sm_leaflet_geosearch',
+		]);
+
+		// leaflet GoogleMutant library
+		elgg_define_js('sm_leaflet_googlemutant', [
+			'src' => "//unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js", 
+			'deps' => ['sm_leaflet_js'],
+			'exports' => 'sm_leaflet_googlemutant',
+		]);
+
 		if (SharemapsOptions::isGoogleAPIEnabled()) {
 			// Google API library
 			$google_maps_api_key = SharemapsOptions::getGoogleAPIKey();
 			elgg_define_js('google_maps_api', [
-				'src' => "//maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key={$google_maps_api_key}",
+				'src' => "//maps.googleapis.com/maps/api/js?loading=async&libraries=places&key={$google_maps_api_key}",
 				'exports' => 'google_maps_api',
 			]);
 			
@@ -67,14 +78,13 @@ class Bootstrap extends DefaultPluginBootstrap {
 				'exports' => 'sm_leaflet_autocomplete',
 			]);
 			elgg_register_external_file('css', 'sm_leaflet_autocomplete_css', elgg_get_simplecache_url('sm_leaflet_autocomplete.css'));
-			// elgg_require_css('sm_leaflet_autocomplete_css', elgg_get_simplecache_url('sm_leaflet_autocomplete.css'));
 
-
-			// Google layers
-			elgg_define_js('sm_leaflet_google_mutant', [
+			// leaflet GoogleMutant library / Google layers
+			elgg_define_js('sm_leaflet_googlemutant', [
+				'src' => "//unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js", 
 				'deps' => ['sm_leaflet_js', 'google_maps_api'],
-				'exports' => 'sm_leaflet_google_mutant',
-			]);        
+				'exports' => 'sm_leaflet_googlemutant',
+			]); 
 		}
 
 		// Leaflet Draw plugin
@@ -105,12 +115,13 @@ class Bootstrap extends DefaultPluginBootstrap {
 		elgg_register_simplecache_view('sharemaps/settings.js');
 
 		// Site navigation
-		$item = new \ElggMenuItem('sharemaps', elgg_echo('sharemaps:menu'), 'maps');
-		elgg_register_menu_item('site', $item); 
-
-		// Register menu item to an ownerblock. It is used to  register news menu item to groups
-		elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'sharemaps_owner_block_menu');
-
+		elgg_register_menu_item('site', [
+			'name' => 'sharemaps',
+			'icon' => 'newspaper',
+			'text' => elgg_echo('sharemaps:menu'),
+			'href' => elgg_generate_url('default:object:sharemaps'),
+		]);
+		
 		// Groups
 		elgg()->group_tools->register('sharemaps');
 

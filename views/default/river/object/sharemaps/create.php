@@ -10,7 +10,7 @@ if (!$item instanceof ElggRiverItem) {
 }
 
 $object = $item->getObjectEntity();
-$vars['message'] = elgg_get_excerpt($object->description);
+$vars['message'] = $object->description? elgg_get_excerpt($object->description) : '';
 $vars['attachments'] = elgg_view('output/url', ['href' => $object->address]);
 
 echo elgg_view('river/elements/layout', $vars);
