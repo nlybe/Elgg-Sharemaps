@@ -1,7 +1,5 @@
 # Elgg Maps Plugin
 
-CHECK THIS FOR package gist renaming https://kb.vander.host/software-development/how-to-rename-a-packagist-php-composer-package/
-
 ![Elgg 5.1](https://img.shields.io/badge/Elgg-5.1-orange.svg?style=flat-square)
 
 Create or upload map files (gpx, kml and kmz) in Elgg communities.
