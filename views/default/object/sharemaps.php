@@ -12,12 +12,12 @@ if (!$entity instanceof ElggMap) {
 }
 
 $owner = $entity->getOwnerEntity();
-
+$description = $entity->description;
 if (elgg_extract('full_view', $vars)) {
-	if ($entity->description) {
+	if ($description) {
 		$description = elgg_format_element('div', ['class' => 'map_content elgg-content mts'], 
 			elgg_view('output/longtext', [
-				'value' => $entity->description,
+				'value' => $description,
 				'class' => 'pbl',
 			])
 		); 
@@ -45,13 +45,12 @@ if (elgg_extract('full_view', $vars)) {
 }
 
 // brief view
-if ($entity->description) {
-	$excerpt = elgg_get_excerpt($entity->description);
+if ($description) {
+	$excerpt = elgg_get_excerpt($description);
 	$excerpt = " - $excerpt";
 }
 
 $content = "{$excerpt}";
-
 $params = [
 	'content' => $content,
 	'icon' => true,
