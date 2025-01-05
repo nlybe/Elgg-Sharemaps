@@ -1,21 +1,19 @@
-define(function (require) {
+define(['jquery', 'elgg', 'sharemaps/settings', 'sm_leaflet_js', 'sm_leaflet_gpx', 'sm_leaflet_kml', 'sm_leaflet_fullscreen', 'sm_leaflet_autocomplete', 'sm_leaflet_googlemutant'], function ($, elgg, sm_settings) {
 
-    var elgg = require("elgg");
-    var $ = require('jquery');
-    require('sm_leaflet_js');
-    require('sm_leaflet_gpx');
-    require('sm_leaflet_kml');
-    require('sm_leaflet_fullscreen');
+    // require('sm_leaflet_js');
+    // require('sm_leaflet_gpx');
+    // require('sm_leaflet_kml');
+    // require('sm_leaflet_fullscreen');
 
     // get plugin settings
-    var sm_settings = require("sharemaps/settings");
+    // var sm_settings = require("sharemaps/settings");
     var google_maps_api = sm_settings['google_maps_api'];
 
     // require the autocomplete only if google_maps_api is enabled
-    if (google_maps_api === true) {
-        require('sm_leaflet_autocomplete');
-        require('sm_leaflet_google_mutant');
-    }
+    // if (google_maps_api === true) {
+        // require(['sm_leaflet_autocomplete', 'sm_leaflet_googlemutant']);
+        // require(['sm_leaflet_googlemutant']);
+    // }
 
     // initialize status
     jQuery(function() {
@@ -40,8 +38,7 @@ define(function (require) {
         map.addControl(new L.Control.Fullscreen());
 
         if (google_maps_api === true) {
-            // replace with https://github.com/smeijer/leaflet-geosearch
-            // autocomplete
+            // autocomplete / replace with https://github.com/smeijer/leaflet-geosearch
             new L.Control.GPlaceAutocomplete({
                 callback: function(place){
                     var loc = place.geometry.location;
@@ -84,7 +81,7 @@ define(function (require) {
               Traffic: trafficMutant
             }, {}, {
                 collapsed: true
-            }).addTo(map);            
+            }).addTo(map);
         }
 
         var map_url = $("#murl").data("murl");  // get the map URL

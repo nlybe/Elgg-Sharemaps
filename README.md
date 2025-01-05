@@ -1,6 +1,6 @@
 # Elgg Maps Plugin
 
-![Elgg 4.2](https://img.shields.io/badge/Elgg-4.2-orange.svg?style=flat-square)
+![Elgg 5.1](https://img.shields.io/badge/Elgg-5.1-orange.svg?style=flat-square)
 
 Create or upload map files (gpx, kml and kmz) in Elgg communities.
 

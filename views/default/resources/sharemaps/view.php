@@ -20,7 +20,7 @@ $content = elgg_view_entity($entity, [
 	'show_responses' => true,
 ]);
 
-if ($entity->canDownload()) {
+if (elgg_is_logged_in()) {
 	elgg_register_menu_item('title', [
 		'name' => 'download',
 		'text' => elgg_echo('download'),

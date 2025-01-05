@@ -28,21 +28,6 @@ class ElggMap extends ElggFile {
         parent::__construct($guid);
     }
 
-    // // may be this is OBS in v.2.10 or later
-    // public function delete() {
-    //     $thumbnails = array($this->thumbnail, $this->smallthumb, $this->largethumb);
-    //     foreach ($thumbnails as $thumbnail) {
-    //         if ($thumbnail) {
-    //             $delfile = new ElggFile();
-    //             $delfile->owner_guid = $this->owner_guid;
-    //             $delfile->setFilename($thumbnail);
-    //             $delfile->delete();
-    //         }
-    //     }
-
-    //     return parent::delete();
-    // }
-
     /**
      * Can a user comment on this sharemap post?
      *
@@ -53,7 +38,7 @@ class ElggMap extends ElggFile {
      *
      * @return bool
      */
-    public function canComment($user_guid = 0, $default = null) {        
+    public function canComment($user_guid = 0, $default = null): bool {        
         $result = parent::canComment($user_guid, $default);
 		if ($result == false) {
 			return $result;

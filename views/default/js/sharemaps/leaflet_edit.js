@@ -1,24 +1,21 @@
-define(function (require) {
+define(['jquery', 'elgg', 'sharemaps/settings', 'elgg/security', 'elgg/system_messages', 'sm_leaflet_js', 'sm_leaflet_gpx', 'sm_leaflet_kml', 'sm_leaflet_draw', 'sm_dropzone', 'sm_leaflet_fullscreen', 'sm_leaflet_autocomplete', 'sm_leaflet_googlemutant'], function ($, elgg, sm_settings, security, system_messages) {
 
-    var elgg = require("elgg");
-    var $ = require('jquery');
     // require('sm_leaflet_js');
-    require('sm_leaflet_gpx');
-    require('sm_leaflet_kml');
-    require('sm_leaflet_draw');
-    require('sm_dropzone');
-    require('sm_leaflet_fullscreen');
+    // require('sm_leaflet_gpx');
+    // require('sm_leaflet_kml');
+    // require('sm_leaflet_draw');
+    // require('sm_dropzone');
+    // require('sm_leaflet_fullscreen');
 
     // get plugin settings
-    var sm_settings = require("sharemaps/settings");
+    // var sm_settings = require("sharemaps/settings");
     var google_maps_api = sm_settings['google_maps_api'];
     var leafletjs_toolbox_enabled = sm_settings['leafletjs_toolbox_enabled'];
 
     // require the autocomplete only if google_maps_api is enabled
-    if (google_maps_api === true) {
-        require('sm_leaflet_autocomplete');
-        require('sm_leaflet_google_mutant');
-    }
+    // if (google_maps_api === true) {
+    //     require(['sm_leaflet_autocomplete', 'sm_leaflet_googlemutant']);
+    // }
 
     // Initialise the FeatureGroup to store editable layers
     var drawnItems = new L.FeatureGroup();
@@ -260,7 +257,7 @@ define(function (require) {
         // Dropzone: The recommended way from within the init configuration:
         $(function() {
             var guid = $('#guid').val();
-            var action_url = elgg.security.addToken(elgg.normalize_url("action/sharemaps/upload?guid="+guid));
+            var action_url = security.addToken(elgg.normalize_url("action/sharemaps/upload?guid="+guid));
             // console.log(action_url);
             $("#file_upload").dropzone({
                 maxFiles: 2000,
@@ -275,7 +272,7 @@ define(function (require) {
                             file_obj.remove();
                         }
                         file_obj = loadFileMap(map, json['map_type']);
-                        elgg.system_message(json['status_msg']);
+                        system_messages.success(json['status_msg']);
                     }
                 },
             });
@@ -327,22 +324,6 @@ function loadFileMap(map, map_type)  {
         return fobject;
     }
     else if (map_type == 'kml') {
-        // fetch(map_url)
-        // .then(res => res.text())
-        // .then(kmltext => {
-        //     // Create new kml overlay
-        //     const parser = new DOMParser();
-        //     const kml = parser.parseFromString(kmltext, 'text/xml');
-        //     fobject = new L.KML(kml);
-        //     map.addLayer(fobject);
-
-        //     // Adjust map to show the kml
-        //     console.log("gggg 1");
-        //     map.fitBounds(fobject.getBounds());
-        //     console.log("gggg 2");
-        //     return fobject;
-        //     console.log("gggg 3");
-        // });
 
         fobject = new L.KML(map_url, {
             async: true

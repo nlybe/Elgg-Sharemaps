@@ -37,7 +37,7 @@ $entity->title = $title;
 $entity->description = $description;
 $entity->map_objects = $map_objects;
 $entity->access_id = $access_id;
-$entity->tags = string_to_tag_array($tags);
+$entity->tags = elgg_string_to_array($tags);
 $entity->comments_on = $comments_on;
 
 if (!$entity->save()) {
